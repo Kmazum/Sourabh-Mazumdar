@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-black text-neutral-200">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sourabh Mazumdar — Sculptor & Artist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        black: '#000000',
+                        neutral: {
+                            950: '#0a0a0a',
+                            900: '#121212',
+                            850: '#171717',
+                            800: '#262626',
+                            700: '#404040',
+                            400: '#a3a3a3',
+                            300: '#d4d4d4',
+                            200: '#e5e5e5'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+                        serif: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #000000;
+            color: #d4d4d4;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            letter-spacing: -0.015em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .hairline-border {
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .hairline-hover:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Liquid Glass Morphic Button Styles */
+        .liquid-glass-btn {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
+                        inset 0 -1px 0 0 rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .liquid-glass-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: left 0.75s ease;
+        }
+
+        .liquid-glass-btn:hover::before {
+            left: 100%;
+        }
+
+        .liquid-glass-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 40px 0 rgba(255, 255, 255, 0.15),
+                        inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .liquid-glass-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #525252;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-white selection:text-black">
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md border-b hairline-border transition-all">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+            <a href="#" onclick="showView('bio')" class="flex flex-col">
+                <span class="text-sm tracking-[0.25em] uppercase font-semibold text-white">Sourabh Mazumdar</span>
+                <span class="text-[10px] tracking-[0.3em] uppercase text-neutral-500 font-normal mt-0.5">Sculptor & Artist</span>
+            </a>
+
+            <!-- Header Nav Links when inside Gallery -->
+            <nav id="gallery-header-nav" class="hidden md:flex items-center space-x-10 text-[11px] uppercase tracking-[0.25em] text-neutral-400 font-normal">
+                <button onclick="showView('bio')" class="hover:text-white transition-colors">Biography</button>
+                <a href="#gallery" class="hover:text-white transition-colors">Works</a>
+                <a href="#cv" class="hover:text-white transition-colors">CV & Exhibitions</a>
+                <a href="#collections" class="hover:text-white transition-colors">Collections</a>
+                <button onclick="openContactModal()" class="px-4 py-2 border hairline-border text-neutral-200 hover:bg-white hover:text-black transition-all">Inquire</button>
+            </nav>
+
+            <button id="mobile-menu-btn" class="md:hidden text-neutral-400 hover:text-white p-2" aria-label="Toggle Menu">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-black border-b hairline-border px-6 py-6 space-y-4 uppercase tracking-[0.2em] text-xs text-neutral-400 font-normal">
+            <button onclick="showView('bio'); toggleMobileMenu()" class="block w-full text-left hover:text-white py-2">Biography</button>
+            <button onclick="showView('gallery'); toggleMobileMenu()" class="block w-full text-left hover:text-white py-2">Works Gallery</button>
+            <a href="#cv" class="block hover:text-white py-2" onclick="toggleMobileMenu()">CV & Exhibitions</a>
+            <a href="#collections" class="block hover:text-white py-2" onclick="toggleMobileMenu()">Collections</a>
+            <button onclick="toggleMobileMenu(); openContactModal()" class="w-full py-3 border hairline-border text-white uppercase text-xs tracking-widest hover:bg-white hover:text-black transition-all">Inquire</button>
+        </div>
+    </header>
+
+    <!-- VIEW 1: BIOGRAPHY LANDING PAGE -->
+    <main id="view-bio" class="pt-36 pb-24 border-b hairline-border transition-opacity duration-500 opacity-100">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div class="space-y-4 mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+                <div>
+                    <p class="text-[11px] uppercase tracking-[0.4em] text-neutral-500 font-normal mb-2">Monograph & Portfolio</p>
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl text-white tracking-tight leading-none font-semibold">
+                        Sourabh Mazumdar
+                    </h1>
+                    <p class="text-xs uppercase tracking-[0.3em] text-neutral-400 font-normal mt-3">New Age Indian Sculptor</p>
+                </div>
+
+                <!-- Liquid Glass ENTER GALLERY Button -->
+                <div class="pt-4 md:pt-0">
+                    <button onclick="showView('gallery')" class="liquid-glass-btn px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.3em] text-white flex items-center gap-3 group">
+                        <span>Enter Gallery</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Prominent Upfront Complete Biography -->
+            <div class="border-t hairline-border pt-12 space-y-8 text-neutral-300 text-sm sm:text-base leading-relaxed font-normal">
+                <p class="text-white text-base sm:text-lg font-normal leading-relaxed tracking-tight">
+                    Born on 11 October in Allahabad, Uttar Pradesh, Sourabh Mazumdar is a sculptor whose artistic journey has been shaped by a sustained engagement with form, material and the expressive possibilities of sculpture. His training spans some of India’s important art institutions, complemented by international exposure and study in Switzerland.
+                </p>
+
+                <p>
+                    Mazumdar began his formal education in art at the Government College of Arts & Crafts, Lucknow University, where he studied Fine Arts with a focus on Sculpture and Drawing from 1988 to 1993. He subsequently pursued postgraduate studies in sculpture at the College of Art, University of Delhi, completing his M.F.A. (Post Graduate Diploma) between 1998 and 2000.
+                </p>
+
+                <p>
+                    An important chapter in his artistic development came in 1997, when he was invited to Switzerland by the Margaret Arp Foundation, with sponsorship from Pro Helvetia, Switzerland, to deepen his understanding of marble sculpture. This experience brought him into direct engagement with the traditions and techniques of working in marble and marked an important international dimension in his sculptural practice.
+                </p>
+
+                <p>
+                    His work has been exhibited extensively since the late 1980s. Early participation included the Very Special Arts of India in New Delhi (1989), the All India Art Exhibition in Varanasi (1991), and annual exhibitions at the Government College of Arts & Crafts, Lucknow. His work was subsequently presented at institutions and exhibitions in Allahabad, New Delhi, Kolkata and elsewhere, including exhibitions associated with the Rajiv Gandhi Foundation, Lalit Kala Academy, AIFACS, the Allahabad Museum, the Birla Academy of Art & Culture, and the College of Art, New Delhi.
+                </p>
+
+                <p>
+                    His international experience expanded in the late 1990s. In 1998, he participated in an exhibition of sculpture organised by the Scuola di Scultura di Peccia at Teatro Dimitri in Verscio, Switzerland, connecting his Indian artistic training with the European sculptural environment. His works have subsequently entered collections in Switzerland, France, Japan, Belgium and Australia, as well as in New Delhi, Allahabad, Kolkata and other private collections in India and abroad.
+                </p>
+
+                <p>
+                    Mazumdar has also presented a number of solo exhibitions, including at the Uttar Pradesh Lalit Kala Academy, Lucknow (1993), Triveni Kala Sangam, New Delhi (1996), the Academy of Fine Arts, Kolkata (1998) and the Birla Academy of Art & Culture, Kolkata (1999). His group exhibitions include presentations at Nirala Art Gallery, Allahabad, Lalit Kala Academy, Ravindra Bhavan, New Delhi, and the Birla Academy of Art & Culture, Kolkata.
+                </p>
+
+                <p>
+                    Across his career, Sourabh Mazumdar's sculptures have been distinguished by an exploration of physical form and material presence. His artistic practice reflects both the rigorous foundation of Indian academic art education and an openness to international approaches to sculpture. His experience with marble in Switzerland, together with his longstanding engagement with sculpture in India, forms an important part of an artistic journey that has extended across several decades and countries.
+                </p>
+
+                <p class="text-neutral-200 border-l border-neutral-600 pl-4 py-1 italic font-normal text-base">
+                    Today, his works form part of institutional and private collections in India and abroad, reflecting the international reach of his practice and his continuing contribution to contemporary Indian sculpture.
+                </p>
+
+                <div class="pt-8 flex justify-center">
+                    <button onclick="showView('gallery')" class="liquid-glass-btn px-10 py-4 rounded-full text-xs font-semibold uppercase tracking-[0.3em] text-white flex items-center gap-3 group">
+                        <span>Explore Gallery Index</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- VIEW 2: FULL E-GALLERY VIEW -->
+    <main id="view-gallery" class="hidden pt-36 pb-24 transition-opacity duration-500 opacity-0">
+        <!-- Return Bar -->
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-12 flex items-center justify-between">
+            <button onclick="showView('bio')" class="liquid-glass-btn px-5 py-2.5 rounded-full text-[10px] uppercase tracking-widest text-neutral-300 hover:text-white flex items-center gap-2">
+                <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                <span>Back to Biography</span>
+            </button>
+            <span class="text-[10px] uppercase tracking-[0.3em] text-neutral-500 font-normal">Exhibition Collection</span>
+        </div>
+
+        <section id="gallery" class="pb-24 border-b hairline-border">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.4em] text-neutral-500 font-normal mb-2">Selected Sculptural Works</p>
+                        <h2 class="text-3xl sm:text-4xl text-white font-semibold tracking-tight">Gallery Index</h2>
+                    </div>
+
+                    <!-- Minimal Material Filters -->
+                    <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-widest font-normal">
+                        <button onclick="filterGallery('all')" class="filter-btn active-filter px-4 py-2 border border-white bg-white text-black transition-all">All</button>
+                        <button onclick="filterGallery('marble')" class="filter-btn px-4 py-2 border hairline-border text-neutral-400 hover:text-white transition-all">Marble</button>
+                        <button onclick="filterGallery('bronze')" class="filter-btn px-4 py-2 border hairline-border text-neutral-400 hover:text-white transition-all">Bronze</button>
+                        <button onclick="filterGallery('terracotta')" class="filter-btn px-4 py-2 border hairline-border text-neutral-400 hover:text-white transition-all">Terracotta</button>
+                        <button onclick="filterGallery('experimental')" class="filter-btn px-4 py-2 border hairline-border text-neutral-400 hover:text-white transition-all">Experimental</button>
+                    </div>
+                </div>
+
+                <!-- Minimal Grid -->
+                <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Javascript dynamic population -->
+                </div>
+
+            </div>
+        </section>
+
+        <section id="cv" class="py-24 border-b hairline-border bg-neutral-950">
+            <div class="max-w-5xl mx-auto px-6 lg:px-12 space-y-16">
+                
+                <div>
+                    <p class="text-[10px] uppercase tracking-[0.4em] text-neutral-500 font-normal mb-2">Academic & Professional Record</p>
+                    <h2 class="text-3xl sm:text-4xl text-white font-semibold tracking-tight">Curriculum Vitae</h2>
+                </div>
+
+                <!-- Qualifications -->
+                <div class="space-y-6">
+                    <h3 class="text-xs uppercase tracking-[0.3em] text-neutral-400 font-normal border-b hairline-border pb-2">Academic Qualifications</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 text-sm font-normal">
+                        <div class="md:col-span-3 text-neutral-500 font-normal text-xs">1998 — 2000</div>
+                        <div class="md:col-span-9 text-neutral-200">
+                            <strong class="font-medium text-white block">M.F.A. (Post Graduate Diploma) in Sculpture</strong>
+                            College of Art, University of Delhi, New Delhi
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 text-sm font-normal">
+                        <div class="md:col-span-3 text-neutral-500 font-normal text-xs">1988 — 1993</div>
+                        <div class="md:col-span-9 text-neutral-200">
+                            <strong class="font-medium text-white block">Bachelor of Fine Arts in Sculpture and Drawing</strong>
+                            Govt. College of Arts & Crafts, Lucknow University, Lucknow
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workshops -->
+                <div class="space-y-6">
+                    <h3 class="text-xs uppercase tracking-[0.3em] text-neutral-400 font-normal border-b hairline-border pb-2">International Workshop & Residency</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 text-sm font-normal">
+                        <div class="md:col-span-3 text-neutral-500 font-normal text-xs">1997</div>
+                        <div class="md:col-span-9 text-neutral-200">
+                            <strong class="font-medium text-white block">Swiss Marble Sculpture Residency</strong>
+                            Invited by Margaret Arp Foundation, Switzerland. Sponsored by Pro Helvetia, Switzerland to deepen marble sculpture mastery.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solo Shows -->
+                <div class="space-y-6">
+                    <h3 class="text-xs uppercase tracking-[0.3em] text-neutral-400 font-normal border-b hairline-border pb-2">Selected Solo Exhibitions</h3>
+                    <div class="space-y-3 text-sm font-normal">
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2">
+                            <span class="md:col-span-3 text-neutral-500 font-normal text-xs">1999</span>
+                            <span class="md:col-span-9 text-neutral-200">Birla Academy of Art and Culture, Kolkata</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2">
+                            <span class="md:col-span-3 text-neutral-500 font-normal text-xs">1998</span>
+                            <span class="md:col-span-9 text-neutral-200">Academy of Fine Arts, Kolkata</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2">
+                            <span class="md:col-span-3 text-neutral-500 font-normal text-xs">1996</span>
+                            <span class="md:col-span-9 text-neutral-200">Triveni Kala Sangam, New Delhi</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2">
+                            <span class="md:col-span-3 text-neutral-500 font-normal text-xs">1993</span>
+                            <span class="md:col-span-9 text-neutral-200">Uttar Pradesh Lalit Kala Academy, Lucknow</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Participations -->
+                <div class="space-y-6">
+                    <h3 class="text-xs uppercase tracking-[0.3em] text-neutral-400 font-normal border-b hairline-border pb-2">Exhibition History & Participations</h3>
+                    <div class="space-y-3 text-xs sm:text-sm font-normal text-neutral-300">
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2"><span class="md:col-span-3 text-neutral-500 font-normal text-xs">2003</span><span class="md:col-span-9">Annual Art Exhibition, Birla Academy of Art & Culture, Kolkata</span></div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2"><span class="md:col-span-3 text-neutral-500 font-normal text-xs">2001, 2002</span><span class="md:col-span-9">Young Faces Exhibition (2001) & Group Show, Birla Academy Kolkata; Lalit Kala Academy, Ravindra Bhavan New Delhi (2002)</span></div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2"><span class="md:col-span-3 text-neutral-500 font-normal text-xs">2000, 2001</span><span class="md:col-span-9">Graduation Show, College of Art at AIFACS New Delhi; All India Arts Exhibition AIFACS (2000)</span></div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2"><span class="md:col-span-3 text-neutral-500 font-normal text-xs">1998, 1999</span><span class="md:col-span-9">Exhibition of Sculpture by Scuola Di Scultura Di Peccia at Teatro Dimitri Verscio, Switzerland (1998); Nirala Art Gallery, Allahabad</span></div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2"><span class="md:col-span-3 text-neutral-500 font-normal text-xs">1993, 1997</span><span class="md:col-span-9">Rajiv Gandhi Foundation Exhibition at Lalit Kala Academy New Delhi (1993); Allahabad Museum (1993); All India Art Exhibition AIFACS (1997)</span></div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-2"><span class="md:col-span-3 text-neutral-500 font-normal text-xs">1989 — 1992</span><span class="md:col-span-9">Very Special Arts of India, New Delhi (1989); All India Art Exhibition, Varanasi (1991); Govt. College of Arts & Crafts Annual Exhibitions (1990–92)</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="collections" class="py-24 border-b hairline-border">
+            <div class="max-w-5xl mx-auto px-6 lg:px-12 space-y-12">
+                <div>
+                    <p class="text-[10px] uppercase tracking-[0.4em] text-neutral-500 font-normal mb-2">Institutional & Private Presence</p>
+                    <h2 class="text-3xl sm:text-4xl text-white font-semibold tracking-tight">Global Collections</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 font-normal">
+                    <div class="border hairline-border p-6 space-y-2 bg-neutral-950">
+                        <span class="text-xs uppercase tracking-widest text-neutral-500 font-normal block">Europe</span>
+                        <p class="text-white text-base font-normal">Switzerland</p>
+                        <p class="text-white text-base font-normal">France</p>
+                        <p class="text-white text-base font-normal">Belgium</p>
+                    </div>
+
+                    <div class="border hairline-border p-6 space-y-2 bg-neutral-950">
+                        <span class="text-xs uppercase tracking-widest text-neutral-500 font-normal block">Asia & Oceania</span>
+                        <p class="text-white text-base font-normal">Japan</p>
+                        <p class="text-white text-base font-normal">Australia</p>
+                    </div>
+
+                    <div class="border hairline-border p-6 space-y-2 bg-neutral-950">
+                        <span class="text-xs uppercase tracking-widest text-neutral-500 font-normal block">India</span>
+                        <p class="text-white text-base font-normal">New Delhi (College of Art)</p>
+                        <p class="text-white text-base font-normal">Kolkata</p>
+                        <p class="text-white text-base font-normal">Allahabad</p>
+                    </div>
+                </div>
+
+                <p class="text-xs text-neutral-500 font-normal uppercase tracking-wider">
+                    & Private Collectors worldwide in India and Abroad
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-6 hidden">
+        <div class="bg-black border hairline-border max-w-md w-full p-8 relative">
+            <button onclick="closeContactModal()" class="absolute top-6 right-6 text-neutral-500 hover:text-white transition-colors" aria-label="Close modal">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <span class="text-[10px] uppercase tracking-[0.3em] text-neutral-500 font-normal">Curatorial & Acquisition</span>
+            <h3 class="text-2xl text-white font-semibold mt-1 mb-6">Studio Inquiry</h3>
+
+            <form id="inquiry-form" onsubmit="handleInquirySubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] uppercase tracking-wider text-neutral-400 font-normal mb-1">Name</label>
+                    <input type="text" required placeholder="Collector or Representative" class="w-full bg-neutral-950 border hairline-border px-3 py-2.5 text-xs text-neutral-200 focus:outline-none focus:border-neutral-500">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-wider text-neutral-400 font-normal mb-1">Email</label>
+                    <input type="email" required placeholder="email@domain.com" class="w-full bg-neutral-950 border hairline-border px-3 py-2.5 text-xs text-neutral-200 focus:outline-none focus:border-neutral-500">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-wider text-neutral-400 font-normal mb-1">Inquiry Topic</label>
+                    <select class="w-full bg-neutral-950 border hairline-border px-3 py-2.5 text-xs text-neutral-200 focus:outline-none focus:border-neutral-500">
+                        <option>Artwork Acquisition</option>
+                        <option>Exhibition Commission</option>
+                        <option>Archival Inquiry</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-wider text-neutral-400 font-normal mb-1">Message</label>
+                    <textarea rows="3" required placeholder="Your message..." class="w-full bg-neutral-950 border hairline-border px-3 py-2.5 text-xs text-neutral-200 focus:outline-none focus:border-neutral-500"></textarea>
+                </div>
+
+                <div id="form-feedback" class="hidden text-xs text-neutral-300 p-3 bg-neutral-900 border hairline-border">
+                    Inquiry submitted successfully. Studio representatives will respond shortly.
+                </div>
+
+                <button type="submit" class="w-full py-3 bg-white text-black text-xs uppercase tracking-[0.2em] font-medium hover:bg-neutral-300 transition-all">
+                    Send Inquiry
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Artwork Modal with 360 viewer -->
+    <div id="artwork-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-6 hidden">
+        <div class="bg-black border hairline-border max-w-4xl w-full max-h-[90vh] overflow-y-auto grid grid-cols-1 md:grid-cols-2 relative">
+            <button onclick="closeArtworkModal()" class="absolute top-6 right-6 z-20 text-neutral-500 hover:text-white transition-colors" aria-label="Close modal">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Interactive 3D Canvas -->
+            <div class="bg-neutral-950 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r hairline-border relative min-h-[300px]">
+                <canvas id="modal-sculpture-canvas" class="w-60 h-60 cursor-grab active:cursor-grabbing"></canvas>
+                <p class="text-[10px] text-neutral-500 tracking-widest uppercase font-normal mt-4">Drag to rotate 360°</p>
+            </div>
+
+            <!-- Artwork Information -->
+            <div class="p-8 flex flex-col justify-between space-y-6">
+                <div>
+                    <span id="modal-art-medium" class="text-[10px] uppercase tracking-widest text-neutral-500 font-normal">Sculpture</span>
+                    <h3 id="modal-art-title" class="text-2xl text-white font-semibold mt-1">Title</h3>
+                    <div class="h-px w-10 bg-neutral-800 my-4"></div>
+
+                    <div class="space-y-2 text-xs text-neutral-300 font-normal">
+                        <p><span class="text-neutral-500">Year:</span> <span id="modal-art-year">1997</span></p>
+                        <p><span class="text-neutral-500">Dimensions:</span> <span id="modal-art-dims">Dimensions</span></p>
+                        <p><span class="text-neutral-500">Provenance:</span> <span id="modal-art-prov">Collection</span></p>
+                        <p class="text-neutral-400 pt-3 leading-relaxed border-t hairline-border mt-3" id="modal-art-desc"></p>
+                    </div>
+                </div>
+
+                <button onclick="closeArtworkModal(); openContactModal();" class="w-full py-3 border hairline-border text-white text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+                    Inquire About Work
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-black border-t hairline-border">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-[11px] uppercase tracking-[0.2em] text-neutral-500 font-normal">
+                Sourabh Mazumdar • Sculptor & Artist
+            </p>
+            <p class="text-[11px] text-neutral-600 font-normal">
+                © All Rights Reserved
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const artworks = [
+            {
+                id: '1',
+                title: 'Marble Form Study',
+                category: 'marble',
+                medium: 'Carved White Marble',
+                year: '1997',
+                dimensions: '42 × 20 × 16 in',
+                provenance: 'Swiss Residency, Margaret Arp Foundation',
+                description: 'Carved during his residency in Switzerland sponsored by Pro Helvetia. Emphasizes organic continuity and classical marble subtractive mastery.',
+                color: '#e5e5e5',
+                type: 'torso'
+            },
+            {
+                id: '2',
+                title: 'Planar Metamorphosis',
+                category: 'bronze',
+                medium: 'Cast Bronze',
+                year: '1999',
+                dimensions: '38 × 16 × 14 in',
+                provenance: 'Birla Academy of Art & Culture, Kolkata',
+                description: 'Dark monochrome cast metal composition highlighting sharp architectural planes intersecting fluid curves.',
+                color: '#737373',
+                type: 'abstract'
+            },
+            {
+                id: '3',
+                title: 'Terracotta Monolith',
+                category: 'terracotta',
+                medium: 'Fired Terracotta',
+                year: '1993',
+                dimensions: '28 × 18 × 12 in',
+                provenance: 'UP Lalit Kala Academy Solo Show',
+                description: 'Subtle clay sculpture reflecting academic rigors from Govt. College of Arts & Crafts Lucknow.',
+                color: '#a3a3a3',
+                type: 'terracotta'
+            },
+            {
+                id: '4',
+                title: 'Granite & Brass Structure',
+                category: 'experimental',
+                medium: 'Chiseled Black Granite & Brass',
+                year: '2001',
+                dimensions: '56 × 22 × 18 in',
+                provenance: 'Private Collection, Delhi',
+                description: 'An avant-garde exploration combining raw stone density with geometric metallic precision.',
+                color: '#404040',
+                type: 'geometric'
+            },
+            {
+                id: '5',
+                title: 'Alpine Wing',
+                category: 'marble',
+                medium: 'Carved Marble',
+                year: '1998',
+                dimensions: '32 × 15 × 12 in',
+                provenance: 'Teatro Dimitri, Verscio, Switzerland',
+                description: 'Exhibited in Switzerland following European sculptural study, balancing tension and negative space.',
+                color: '#d4d4d4',
+                type: 'wings'
+            },
+            {
+                id: '6',
+                title: 'Abstract Elevation',
+                category: 'experimental',
+                medium: 'Cast Metal & Dark Stone',
+                year: '2000',
+                dimensions: '48 × 18 × 16 in',
+                provenance: 'College of Art, University of Delhi',
+                description: 'Postgraduate MFA synthesis of traditional Indian formal education and contemporary abstract sculpture.',
+                color: '#525252',
+                type: 'monolith'
+            }
+        ];
+
+        // View Switching Logic (Bio Landing vs Gallery Index)
+        function showView(viewName) {
+            const bioView = document.getElementById('view-bio');
+            const galleryView = document.getElementById('view-gallery');
+            const galleryHeaderNav = document.getElementById('gallery-header-nav');
+
+            if (viewName === 'gallery') {
+                bioView.classList.add('opacity-0');
+                setTimeout(() => {
+                    bioView.classList.add('hidden');
+                    galleryView.classList.remove('hidden');
+                    galleryHeaderNav.classList.remove('hidden');
+                    setTimeout(() => {
+                        galleryView.classList.remove('opacity-0');
+                        galleryView.classList.add('opacity-100');
+                        renderGallery(artworks);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 50);
+                }, 300);
+            } else {
+                galleryView.classList.add('opacity-0');
+                setTimeout(() => {
+                    galleryView.classList.add('hidden');
+                    galleryHeaderNav.classList.add('hidden');
+                    bioView.classList.remove('hidden');
+                    setTimeout(() => {
+                        bioView.classList.remove('opacity-0');
+                        bioView.classList.add('opacity-100');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 50);
+                }, 300);
+            }
+        }
+
+        function renderGallery(items) {
+            const grid = document.getElementById('gallery-grid');
+            if (!grid) return;
+            
+            grid.innerHTML = items.map(item => `
+                <div class="border hairline-border hairline-hover bg-neutral-950 p-6 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-full h-64 bg-black border hairline-border flex items-center justify-center relative mb-6">
+                            <canvas id="canvas-thumb-${item.id}" class="w-full h-full"></canvas>
+                            <span class="absolute top-3 left-3 text-[9px] uppercase tracking-[0.2em] font-normal text-neutral-500">
+                                ${item.category}
+                            </span>
+                        </div>
+
+                        <span class="text-[10px] text-neutral-500 uppercase tracking-widest font-normal">${item.medium}</span>
+                        <h3 class="text-xl text-white mt-1 font-semibold group-hover:text-neutral-300 transition-colors tracking-tight">${item.title}</h3>
+                        <p class="text-xs text-neutral-400 mt-2 line-clamp-2 font-normal leading-relaxed">${item.description}</p>
+                    </div>
+
+                    <div class="pt-4 border-t hairline-border mt-6 flex items-center justify-between text-xs">
+                        <span class="text-neutral-500 font-normal text-[10px]">${item.year}</span>
+                        <button onclick="openArtworkModal('${item.id}')" class="text-white hover:text-neutral-400 text-[10px] uppercase tracking-widest font-normal flex items-center gap-1">
+                            360° View
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+
+            setTimeout(() => {
+                items.forEach(item => draw3DSculpture('canvas-thumb-' + item.id, item, 0));
+            }, 50);
+        }
+
+        function filterGallery(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-white', 'text-black', 'border-white');
+                btn.classList.add('border-neutral-800', 'text-neutral-400');
+            });
+            event.target.classList.add('bg-white', 'text-black', 'border-white');
+
+            if (category === 'all') {
+                renderGallery(artworks);
+            } else {
+                renderGallery(artworks.filter(a => a.category === category));
+            }
+        }
+
+        function draw3DSculpture(canvasId, artwork, angle) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * (window.devicePixelRatio || 1);
+            canvas.height = rect.height * (window.devicePixelRatio || 1);
+            
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w / 2;
+            const cy = h / 2 + 10;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Minimal Base
+            ctx.fillStyle = '#121212';
+            ctx.strokeStyle = '#262626';
+            ctx.lineWidth = 1;
+            ctx.fillRect(cx - 35, cy + 30, 70, 10);
+            ctx.strokeRect(cx - 35, cy + 30, 70, 10);
+
+            // Sculpture rendering
+            ctx.save();
+            ctx.translate(cx, cy);
+
+            const rad = (angle * Math.PI) / 180;
+            const skew = Math.sin(rad) * 20;
+
+            const grad = ctx.createLinearGradient(-20 + skew, -70, 20 + skew, 30);
+            grad.addColorStop(0, artwork.color);
+            grad.addColorStop(1, '#0a0a0a');
+
+            ctx.fillStyle = grad;
+            ctx.strokeStyle = '#525252';
+            ctx.lineWidth = 1;
+
+            ctx.beginPath();
+            if (artwork.type === 'torso') {
+                ctx.moveTo(-15 + skew, 30);
+                ctx.bezierCurveTo(-35 + skew, -15, 20 + skew, -50, 0 + skew, -85);
+                ctx.bezierCurveTo(35 + skew, -50, 25 + skew, 0, 15 + skew, 30);
+            } else if (artwork.type === 'wings') {
+                ctx.moveTo(0, 30);
+                ctx.bezierCurveTo(-55 + skew, -15, -35 + skew, -75, 0, -60);
+                ctx.bezierCurveTo(35 - skew, -75, 55 - skew, -15, 0, 30);
+            } else if (artwork.type === 'terracotta') {
+                ctx.moveTo(-20 + skew, 30);
+                ctx.quadraticCurveTo(-25 + skew, -30, 0 + skew, -75);
+                ctx.quadraticCurveTo(25 - skew, -30, 20 - skew, 30);
+            } else {
+                ctx.moveTo(-20 + skew, 30);
+                ctx.lineTo(-15 + skew, -70);
+                ctx.lineTo(15 - skew, -80);
+                ctx.lineTo(20 - skew, 30);
+            }
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        let activeRotationAngle = 0;
+        let isDragging = false;
+        let startX = 0;
+        let activeArtwork = null;
+
+        function openArtworkModal(id) {
+            activeArtwork = artworks.find(a => a.id === id);
+            if (!activeArtwork) return;
+
+            document.getElementById('modal-art-title').innerText = activeArtwork.title;
+            document.getElementById('modal-art-medium').innerText = activeArtwork.medium;
+            document.getElementById('modal-art-year').innerText = activeArtwork.year;
+            document.getElementById('modal-art-dims').innerText = activeArtwork.dimensions;
+            document.getElementById('modal-art-prov').innerText = activeArtwork.provenance;
+            document.getElementById('modal-art-desc').innerText = activeArtwork.description;
+
+            document.getElementById('artwork-modal').classList.remove('hidden');
+            activeRotationAngle = 0;
+
+            setTimeout(() => {
+                draw3DSculpture('modal-sculpture-canvas', activeArtwork, activeRotationAngle);
+            }, 50);
+        }
+
+        function closeArtworkModal() {
+            document.getElementById('artwork-modal').classList.add('hidden');
+        }
+
+        const modalCanvas = document.getElementById('modal-sculpture-canvas');
+        if (modalCanvas) {
+            modalCanvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging || !activeArtwork) return;
+                const deltaX = e.clientX - startX;
+                activeRotationAngle += deltaX * 0.8;
+                startX = e.clientX;
+                draw3DSculpture('modal-sculpture-canvas', activeArtwork, activeRotationAngle);
+            });
+
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            modalCanvas.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+            });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || !activeArtwork) return;
+                const deltaX = e.touches[0].clientX - startX;
+                activeRotationAngle += deltaX * 0.8;
+                startX = e.touches[0].clientX;
+                draw3DSculpture('modal-sculpture-canvas', activeArtwork, activeRotationAngle);
+            });
+
+            window.addEventListener('touchend', () => { isDragging = false; });
+        }
+
+        function openContactModal() {
+            document.getElementById('contact-modal').classList.remove('hidden');
+        }
+
+        function closeContactModal() {
+            document.getElementById('contact-modal').classList.add('hidden');
+        }
+
+        function handleInquirySubmit(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('form-feedback');
+            feedback.classList.remove('hidden');
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+                closeContactModal();
+            }, 2000);
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        window.onload = function() {
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
