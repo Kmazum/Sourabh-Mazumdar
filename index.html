@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sourabh Mazumdar — E-Gallery & Portfolio</title>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        black: '#000000',
+                        dark: '#080808',
+                        card: '#0D0D0D',
+                        border: '#1F1F1F',
+                    },
+                    fontFamily: {
+                        sf: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #000000;
+            color: #E5E5E5;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            letter-spacing: -0.015em;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Liquid Glass Theme Button */
+        .liquid-glass-btn {
+            position: relative;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 
+                0 8px 32px 0 rgba(0, 0, 0, 0.8),
+                inset 0 1px 1px 0 rgba(255, 255, 255, 0.35),
+                inset 0 -1px 1px 0 rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .liquid-glass-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.25),
+                transparent
+            );
+            transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .liquid-glass-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 12px 40px 0 rgba(255, 255, 255, 0.15),
+                inset 0 1px 2px 0 rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .liquid-glass-btn:hover::before {
+            left: 150%;
+        }
+
+        /* Fast Image Loading Animation */
+        img {
+            transition: opacity 0.3s ease-in-out;
+        }
+        img.lazy-load {
+            opacity: 0;
+        }
+        img.loaded {
+            opacity: 1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+        .view-section { transition: opacity 0.3s ease, transform 0.3s ease; }
+        .hidden-view { display: none !important; opacity: 0; transform: translateY(8px); }
+        .visible-view { display: block !important; opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-black text-neutral-200 font-sf min-h-screen selection:bg-neutral-800 selection:text-white">
+
+    <!-- Top Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-neutral-900 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('bio')">
+                <div class="w-2.5 h-2.5 bg-white rounded-full"></div>
+                <span class="text-sm font-semibold tracking-widest uppercase text-white">Sourabh Mazumdar</span>
+            </div>
+
+            <nav class="flex items-center gap-6 text-xs uppercase tracking-wider font-medium">
+                <button id="nav-bio-btn" onclick="switchTab('bio')" class="text-white transition-colors flex items-center gap-1.5">
+                    <i data-lucide="user" class="w-3.5 h-3.5"></i> Biography
+                </button>
+                <button id="nav-gallery-btn" onclick="switchTab('gallery')" class="text-neutral-500 hover:text-white transition-colors flex items-center gap-1.5">
+                    <i data-lucide="grid" class="w-3.5 h-3.5"></i> Gallery
+                </button>
+                <button id="nav-timeline-btn" onclick="switchTab('timeline')" class="text-neutral-500 hover:text-white transition-colors flex items-center gap-1.5">
+                    <i data-lucide="award" class="w-3.5 h-3.5"></i> CV & History
+                </button>
+                
+                <!-- Admin Lock / Action Button -->
+                <button id="auth-action-btn" onclick="toggleAuthModal()" class="ml-2 px-3 py-1.5 border border-neutral-800 rounded-full text-neutral-400 hover:text-white hover:border-neutral-600 transition-all flex items-center gap-1.5 font-mono text-[11px]">
+                    <i data-lucide="lock" class="w-3 h-3" id="auth-icon"></i>
+                    <span id="auth-btn-label">Admin Login</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="pt-28 pb-20 px-6 max-w-5xl mx-auto">
+
+        <!-- ================= BIOGRAPHY VIEW ================= -->
+        <section id="view-bio" class="view-section visible-view space-y-12">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-neutral-900 pb-12">
+                <div class="space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800 bg-neutral-950 text-neutral-400 text-xs tracking-wider uppercase">
+                        <span>Sculptor & Artist</span>
+                    </div>
+                    
+                    <div class="flex items-start md:items-center gap-6 flex-wrap">
+                        <h1 class="text-4xl md:text-6xl font-light tracking-tight text-white leading-tight">
+                            Sourabh Mazumdar
+                        </h1>
+
+                        <div class="relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950 p-1 flex items-center justify-center">
+                            <img src="pfp.jpeg" 
+                                 alt="Sourabh Mazumdar" 
+                                 loading="eager"
+                                 class="w-24 h-32 md:w-28 md:h-36 object-cover object-top rounded-lg hover:scale-105 transition-transform duration-500" 
+                                 onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300'" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-shrink-0">
+                    <button onclick="switchTab('gallery')" class="liquid-glass-btn px-8 py-4 rounded-full flex items-center gap-3 text-white font-medium text-sm tracking-wider uppercase group">
+                        <span>Enter Gallery</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-6 text-neutral-300 font-normal leading-relaxed text-base md:text-lg border-b border-neutral-900 pb-12">
+                <p>Born on 11 October in Allahabad, Uttar Pradesh, Sourabh Mazumdar is a sculptor whose artistic journey has been shaped by a sustained engagement with form, material and the expressive possibilities of sculpture. His training spans some of India’s important art institutions, complemented by international exposure and study in Switzerland.</p>
+
+                <p>Mazumdar began his formal education in art at the Government College of Arts & Crafts, Lucknow University, where he studied Fine Arts with a focus on Sculpture and Drawing from 1988 to 1993. He subsequently pursued postgraduate studies in sculpture at the College of Art, University of Delhi, completing his M.F.A. (Post Graduate Diploma) between 1998 and 2000.</p>
+
+                <p>An important chapter in his artistic development came in 1997, when he was invited to Switzerland by the Margaret Arp Foundation, with sponsorship from Pro Helvetia, Switzerland, to deepen his understanding of marble sculpture. This experience brought him into direct engagement with the traditions and techniques of working in marble and marked an important international dimension in his sculptural practice.</p>
+
+                <p>His work has been exhibited extensively since the late 1980s. Early participation included the Very Special Arts of India in New Delhi (1989), the All India Art Exhibition in Varanasi (1991), and annual exhibitions at the Government College of Arts & Crafts, Lucknow. His work was subsequently presented at institutions and exhibitions in Allahabad, New Delhi, Kolkata and elsewhere, including exhibitions associated with the Rajiv Gandhi Foundation, Lalit Kala Academy, AIFACS, the Allahabad Museum, the Birla Academy of Art & Culture, and the College of Art, New Delhi.</p>
+
+                <p>His international experience expanded in the late 1990s. In 1998, he participated in an exhibition of sculpture organised by the Scuola di Scultura di Peccia at Teatro Dimitri in Verscio, Switzerland, connecting his Indian artistic training with the European sculptural environment. His works have subsequently entered collections in Switzerland, France, Japan, Belgium and Australia, as well as in New Delhi, Allahabad, Kolkata and other private collections in India and abroad.</p>
+
+                <p>Mazumdar has also presented a number of solo exhibitions, including at the Uttar Pradesh Lalit Kala Academy, Lucknow (1993), Triveni Kala Sangam, New Delhi (1996), the Academy of Fine Arts, Kolkata (1998) and the Birla Academy of Art & Culture, Kolkata (1999). His group exhibitions include presentations at Nirala Art Gallery, Allahabad, Lalit Kala Academy, Ravindra Bhavan, New Delhi, and the Birla Academy of Art & Culture, Kolkata.</p>
+
+                <p>Across his career, Sourabh Mazumdar's sculptures have been distinguished by an exploration of physical form and material presence. His artistic practice reflects both the rigorous foundation of Indian academic art education and an openness to international approaches to sculpture. His experience with marble in Switzerland, together with his longstanding engagement with sculpture in India, forms an important part of an artistic journey that has extended across several decades and countries.</p>
+
+                <p>Today, his works form part of institutional and private collections in India and abroad, reflecting the international reach of his practice and his continuing contribution to contemporary Indian sculpture.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-4 text-xs font-mono text-neutral-400">
+                <div class="p-4 border border-neutral-900 rounded-lg bg-neutral-950"><span class="block text-neutral-600 mb-1">// ORIGIN</span><span class="text-neutral-200">Allahabad (UP), India</span></div>
+                <div class="p-4 border border-neutral-900 rounded-lg bg-neutral-950"><span class="block text-neutral-600 mb-1">// EDUCATION</span><span class="text-neutral-200">B.F.A. Lucknow, M.F.A. Delhi</span></div>
+                <div class="p-4 border border-neutral-900 rounded-lg bg-neutral-950"><span class="block text-neutral-600 mb-1">// SWISS RESIDENCY</span><span class="text-neutral-200">Margaret Arp Foundation (1997)</span></div>
+                <div class="p-4 border border-neutral-900 rounded-lg bg-neutral-950"><span class="block text-neutral-600 mb-1">// FOOTPRINT</span><span class="text-neutral-200">Global Collections</span></div>
+            </div>
+        </section>
+
+
+        <!-- ================= GALLERY VIEW ================= -->
+        <section id="view-gallery" class="view-section hidden-view space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-neutral-900 pb-6">
+                <div>
+                    <h2 class="text-3xl font-light text-white tracking-tight">Art & Sculpture Collection</h2>
+                    <p class="text-neutral-500 text-sm mt-1">Live artwork records synchronized directly from Firebase.</p>
+                </div>
+
+                <div id="filter-container" class="flex flex-wrap gap-2 text-xs"></div>
+            </div>
+
+            <!-- In-Line Upload Widget (Visible Only When Authenticated) -->
+            <div id="admin-upload-card" class="hidden border border-neutral-800 bg-neutral-950 p-6 rounded-2xl space-y-4 mb-8">
+                <div class="flex justify-between items-center border-b border-neutral-900 pb-3">
+                    <div class="flex items-center gap-2 text-white font-medium text-sm">
+                        <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-400"></i>
+                        <span>Add New Artwork Record</span>
+                    </div>
+                    <span class="text-[10px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded-full">Authenticated</span>
+                </div>
+
+                <form id="artwork-form" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+                    <div class="space-y-1">
+                        <label class="text-neutral-400 block">// TITLE *</label>
+                        <input type="text" id="art-title" required placeholder="Artwork Title" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-sm focus:outline-none focus:border-neutral-500" />
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="space-y-1">
+                            <label class="text-neutral-400 block">// CATEGORY *</label>
+                            <select id="art-category" required class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-sm focus:outline-none focus:border-neutral-500">
+                                <option value="marble">Marble</option>
+                                <option value="bronze">Bronze</option>
+                                <option value="terracotta">Terracotta</option>
+                                <option value="painting">Painting</option>
+                                <option value="stone">Stone</option>
+                                <option value="wood">Wood</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-neutral-400 block">// YEAR</label>
+                            <input type="text" id="art-year" placeholder="1997" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-sm focus:outline-none focus:border-neutral-500" />
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-neutral-400 block">// MEDIUM / MATERIAL *</label>
+                        <input type="text" id="art-medium" required placeholder="e.g. Oil on Canvas or Carved Marble" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-sm focus:outline-none focus:border-neutral-500" />
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-neutral-400 block">// IMAGE FILE OR URL</label>
+                        <input type="file" id="art-file" accept="image/*" class="w-full text-neutral-400 text-xs mb-1" />
+                        <input type="url" id="art-url" placeholder="Or paste image URL..." class="w-full bg-black border border-neutral-800 rounded-lg p-2 text-white font-sans text-xs focus:outline-none" />
+                    </div>
+
+                    <div class="md:col-span-2 space-y-1">
+                        <label class="text-neutral-400 block">// DESCRIPTION</label>
+                        <textarea id="art-desc" rows="2" placeholder="Artwork details or context..." class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-sm focus:outline-none focus:border-neutral-500"></textarea>
+                    </div>
+
+                    <div class="md:col-span-2 pt-2">
+                        <button type="submit" id="submit-btn" class="w-full py-3 bg-white text-black font-semibold rounded-lg text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+                            <span>Publish Artwork Instantly</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="col-span-full py-20 text-center text-neutral-600 font-mono text-sm">
+                    Loading gallery items...
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= CV & TIMELINE VIEW ================= -->
+        <section id="view-timeline" class="view-section hidden-view space-y-12">
+            <div class="border-b border-neutral-900 pb-6">
+                <h2 class="text-3xl font-light text-white tracking-tight">Curriculum Vitae & History</h2>
+                <p class="text-neutral-500 text-sm mt-1">Exhibitions, international residencies, and artistic milestones.</p>
+            </div>
+
+            <div class="space-y-8 text-sm">
+                <div class="space-y-2 border-b border-neutral-900 pb-6">
+                    <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">// FORMAL EDUCATION</h3>
+                    <ul class="text-neutral-300 space-y-2">
+                        <li><strong class="text-white">1988 – 1993:</strong> Fine Arts (Sculpture & Drawing), Government College of Arts & Crafts, Lucknow University</li>
+                        <li><strong class="text-white">1998 – 2000:</strong> M.F.A. (Post Graduate Diploma) in Sculpture, College of Art, University of Delhi</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-2 border-b border-neutral-900 pb-6">
+                    <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">// INTERNATIONAL RESIDENCY</h3>
+                    <p class="text-neutral-300"><strong class="text-white">1997:</strong> Margaret Arp Foundation, Switzerland (Sponsored by Pro Helvetia, Switzerland) — Marble Sculpture Specialization</p>
+                    <p class="text-neutral-300"><strong class="text-white">1998:</strong> Sculpture Exhibition with Scuola di Scultura di Peccia at Teatro Dimitri, Verscio, Switzerland</p>
+                </div>
+
+                <div class="space-y-2 border-b border-neutral-900 pb-6">
+                    <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">// SOLO EXHIBITIONS</h3>
+                    <ul class="text-neutral-300 space-y-2">
+                        <li><strong class="text-white">1993:</strong> Uttar Pradesh Lalit Kala Academy, Lucknow</li>
+                        <li><strong class="text-white">1996:</strong> Triveni Kala Sangam, New Delhi</li>
+                        <li><strong class="text-white">1998:</strong> Academy of Fine Arts, Kolkata</li>
+                        <li><strong class="text-white">1999:</strong> Birla Academy of Art & Culture, Kolkata</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">// INTERNATIONAL & DOMESTIC COLLECTIONS</h3>
+                    <p class="text-neutral-300">Switzerland, France, Japan, Belgium, Australia, New Delhi, Allahabad, Kolkata, and private global collections.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Artwork Full Detail View -->
+    <div id="art-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl hidden flex-col justify-center items-center p-6" onclick="closeArtModal()">
+        <div class="max-w-3xl w-full text-center space-y-6" onclick="event.stopPropagation()">
+            <div class="relative w-full h-80 md:h-[450px] border border-neutral-800 rounded-xl bg-neutral-950 overflow-hidden flex items-center justify-center p-2">
+                <img id="modal-image" src="" alt="Artwork" class="w-full h-full object-contain rounded-lg hidden" />
+                <div id="modal-placeholder" class="text-neutral-600 font-mono text-xs">No image provided</div>
+            </div>
+            <div class="space-y-2">
+                <h3 id="modal-title" class="text-2xl font-light text-white">Artwork Title</h3>
+                <p id="modal-desc" class="text-neutral-400 text-sm max-w-lg mx-auto"></p>
+                <span id="modal-medium" class="inline-block text-xs font-mono px-3 py-1 border border-neutral-800 rounded text-neutral-500">Medium</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Authentication Modal -->
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden justify-center items-center p-6" onclick="closeAuthModal()">
+        <div class="max-w-sm w-full border border-neutral-800 bg-neutral-950 p-6 rounded-2xl space-y-4 shadow-2xl" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center border-b border-neutral-900 pb-3">
+                <h3 class="text-sm font-mono uppercase text-white tracking-widest">// ADMIN ACCESS</h3>
+                <button onclick="closeAuthModal()" class="text-neutral-500 hover:text-white">&times;</button>
+            </div>
+
+            <form id="login-form" class="space-y-3 font-mono text-xs">
+                <div>
+                    <label class="text-neutral-400 block mb-1">USERNAME</label>
+                    <input type="text" id="login-username" required placeholder="Enter username" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-sm focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-400 block mb-1">PASSWORD</label>
+                    <input type="password" id="login-password" required placeholder="Enter password" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-sm focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div id="auth-error" class="text-red-400 text-[11px] hidden">Incorrect credentials</div>
+                <button type="submit" class="w-full py-2.5 bg-white text-black font-semibold rounded-lg uppercase tracking-wider text-xs">Verify Credentials</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase App & Firestore Realtime Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBk_nlfUVFRIQIcO6F2zL68XHjsReY99gk",
+            authDomain: "sourabh-mazumdar.firebaseapp.com",
+            projectId: "sourabh-mazumdar",
+            storageBucket: "sourabh-mazumdar.firebasestorage.app",
+            messagingSenderId: "86814693733",
+            appId: "1:86814693733:web:0a84aa621b59ebe217e98c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Enable Instant IndexedDB Local Caching
+        enableIndexedDbPersistence(db).catch(() => {});
+
+        let artworksList = [];
+        let currentFilter = 'all';
+        let isAuthenticated = false;
+
+        // Global Tab Switcher Function
+        window.switchTab = function(viewName) {
+            ['bio', 'gallery', 'timeline'].forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                const btn = document.getElementById(`nav-${v}-btn`);
+                if (v === viewName) {
+                    el.classList.remove('hidden-view');
+                    el.classList.add('visible-view');
+                    if (btn) btn.className = "text-white transition-colors flex items-center gap-1.5";
+                } else {
+                    el.classList.add('hidden-view');
+                    el.classList.remove('visible-view');
+                    if (btn) btn.className = "text-neutral-500 hover:text-white transition-colors flex items-center gap-1.5";
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        };
+
+        // Realtime Firestore Listener
+        const q = query(collection(db, "artworks"), orderBy("createdAt", "desc"));
+        onSnapshot(q, (snapshot) => {
+            artworksList = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+            updateFilterButtons(artworksList);
+            renderGallery(artworksList);
+        });
+
+        function updateFilterButtons(items) {
+            const filterContainer = document.getElementById('filter-container');
+            if (!filterContainer) return;
+
+            const presentCategories = new Set();
+            items.forEach(item => {
+                if (item.category && item.category.trim() !== "") {
+                    presentCategories.add(item.category.trim().toLowerCase());
+                }
+            });
+
+            filterContainer.innerHTML = '';
+            filterContainer.appendChild(createFilterButton('all', 'All', currentFilter === 'all'));
+
+            presentCategories.forEach(cat => {
+                const label = cat.charAt(0).toUpperCase() + cat.slice(1);
+                filterContainer.appendChild(createFilterButton(cat, label, currentFilter === cat));
+            });
+        }
+
+        function createFilterButton(catKey, label, isActive) {
+            const btn = document.createElement('button');
+            btn.onclick = () => filterGallery(catKey);
+            btn.className = `px-3 py-1.5 rounded border transition-all text-xs capitalize ${
+                isActive ? 'bg-white text-black border-white font-medium' : 'border-neutral-800 text-neutral-400 hover:text-white'
+            }`;
+            btn.innerText = label;
+            return btn;
+        }
+
+        window.renderGallery = function(items) {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+
+            const filtered = currentFilter === 'all' 
+                ? items 
+                : items.filter(a => (a.category || '').toLowerCase() === currentFilter.toLowerCase());
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-16 text-center text-neutral-600 font-mono text-xs">No artworks in this category.</div>`;
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+            filtered.forEach(art => {
+                const card = document.createElement('div');
+                card.className = "group border border-neutral-900 bg-neutral-950 hover:border-neutral-700 transition-all rounded-xl overflow-hidden flex flex-col justify-between p-5 space-y-4 cursor-pointer relative";
+                card.onclick = () => openArtModal(art);
+
+                const hasImg = art.imageUrl && art.imageUrl.trim() !== "";
+
+                card.innerHTML = `
+                    <div class="w-full h-52 bg-black border border-neutral-900 rounded-lg flex items-center justify-center relative overflow-hidden">
+                        ${hasImg ? `
+                            <img src="${art.imageUrl}" alt="${art.title || ''}" loading="lazy" onload="this.classList.add('loaded')" class="lazy-load w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                        ` : `
+                            <div class="text-neutral-700 font-mono text-xs">View Artwork</div>
+                        `}
+                        ${isAuthenticated ? `
+                            <button onclick="event.stopPropagation(); deleteArtRecord('${art.id}')" class="absolute top-2 right-2 p-1.5 rounded bg-black/80 text-neutral-400 hover:text-red-400 border border-neutral-800 transition-all">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <h4 class="text-white font-medium text-lg">${art.title || 'Untitled'}</h4>
+                            <span class="text-neutral-600 font-mono text-xs">${art.year || ''}</span>
+                        </div>
+                        <p class="text-neutral-500 text-xs line-clamp-2 mt-1">${art.desc || art.description || ''}</p>
+                    </div>
+                `;
+                fragment.appendChild(card);
+            });
+            grid.appendChild(fragment);
+            if (window.lucide) window.lucide.createIcons();
+        };
+
+        window.filterGallery = function(category) {
+            currentFilter = category.toLowerCase();
+            updateFilterButtons(artworksList);
+            renderGallery(artworksList);
+        };
+
+        // Authentication Modal Handler
+        window.toggleAuthModal = function() {
+            if (isAuthenticated) {
+                isAuthenticated = false;
+                document.getElementById('auth-btn-label').innerText = "Admin Login";
+                document.getElementById('auth-action-btn').className = "ml-2 px-3 py-1.5 border border-neutral-800 rounded-full text-neutral-400 hover:text-white hover:border-neutral-600 transition-all flex items-center gap-1.5 font-mono text-[11px]";
+                document.getElementById('admin-upload-card').classList.add('hidden');
+                renderGallery(artworksList);
+            } else {
+                document.getElementById('auth-modal').classList.remove('hidden');
+                document.getElementById('auth-modal').classList.add('flex');
+            }
+        };
+
+        window.closeAuthModal = function() {
+            document.getElementById('auth-modal').classList.add('hidden');
+            document.getElementById('auth-modal').classList.remove('flex');
+        };
+
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const u = document.getElementById('login-username').value.trim();
+            const p = document.getElementById('login-password').value.trim();
+
+            if (u === "SourabhMz" && p === "1166@KrishSou") {
+                isAuthenticated = true;
+                closeAuthModal();
+                document.getElementById('auth-error').classList.add('hidden');
+                document.getElementById('auth-btn-label').innerText = "Admin Logout";
+                document.getElementById('auth-action-btn').className = "ml-2 px-3 py-1.5 border border-emerald-800 bg-emerald-950/40 text-emerald-300 rounded-full transition-all flex items-center gap-1.5 font-mono text-[11px]";
+                document.getElementById('admin-upload-card').classList.remove('hidden');
+                switchTab('gallery');
+                renderGallery(artworksList);
+            } else {
+                document.getElementById('auth-error').classList.remove('hidden');
+            }
+        });
+
+        // Fast Client-Side Base64 Image Compression
+        function compressImage(file, maxDimension = 1200, quality = 0.75) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = () => {
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > maxDimension || height > maxDimension) {
+                            if (width > height) {
+                                height = Math.round((height * maxDimension) / width);
+                                width = maxDimension;
+                            } else {
+                                width = Math.round((width * maxDimension) / height);
+                                height = maxDimension;
+                            }
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = () => resolve('');
+                };
+                reader.onerror = () => resolve('');
+            });
+        }
+
+        // Add Artwork Submission
+        document.getElementById('artwork-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!isAuthenticated) return;
+
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.innerText = "Publishing Artwork...";
+
+            try {
+                let imgData = document.getElementById('art-url').value.trim();
+                const fileInput = document.getElementById('art-file');
+
+                if (!imgData && fileInput.files.length > 0) {
+                    imgData = await compressImage(fileInput.files[0]);
+                }
+
+                await addDoc(collection(db, "artworks"), {
+                    title: document.getElementById('art-title').value.trim(),
+                    category: document.getElementById('art-category').value,
+                    year: document.getElementById('art-year').value.trim(),
+                    medium: document.getElementById('art-medium').value.trim(),
+                    desc: document.getElementById('art-desc').value.trim(),
+                    imageUrl: imgData,
+                    createdAt: serverTimestamp()
+                });
+
+                document.getElementById('artwork-form').reset();
+            } catch (err) {
+                alert("Upload error: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="upload-cloud" class="w-4 h-4"></i><span>Publish Artwork Instantly</span>`;
+                if (window.lucide) window.lucide.createIcons();
+            }
+        });
+
+        // Delete Artwork Record
+        window.deleteArtRecord = async function(docId) {
+            if (!isAuthenticated) return;
+            if (confirm("Are you sure you want to delete this artwork?")) {
+                await deleteDoc(doc(db, "artworks", docId));
+            }
+        };
+
+        // Modal Controls
+        window.openArtModal = function(art) {
+            document.getElementById('modal-title').innerText = art.title || 'Untitled';
+            document.getElementById('modal-desc').innerText = art.desc || art.description || '';
+            document.getElementById('modal-medium').innerText = (art.medium || art.category || 'Artwork') + (art.year ? " (" + art.year + ")" : "");
+            
+            const modalImg = document.getElementById('modal-image');
+            const placeholder = document.getElementById('modal-placeholder');
+
+            if (art.imageUrl && art.imageUrl.trim() !== '') {
+                modalImg.src = art.imageUrl;
+                modalImg.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            } else {
+                modalImg.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+            }
+
+            document.getElementById('art-modal').classList.remove('hidden');
+            document.getElementById('art-modal').classList.add('flex');
+        };
+
+        window.closeArtModal = function() {
+            document.getElementById('art-modal').classList.add('hidden');
+            document.getElementById('art-modal').classList.remove('flex');
+        };
+
+        window.onload = () => { if (window.lucide) window.lucide.createIcons(); };
+    </script>
+</body>
+</html>
