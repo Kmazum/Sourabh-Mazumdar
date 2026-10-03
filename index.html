@@ -315,7 +315,6 @@
 
             <div class="space-y-5 sm:space-y-6 text-neutral-300 font-normal leading-relaxed text-sm sm:text-base md:text-lg border-b border-neutral-900 pb-8 sm:pb-12">
                 <div class="flex justify-center md:justify-start pb-4">
-                    <!-- Adjusted object-top so head is not cut off -->
                     <img 
                         src="pfp.jpeg" 
                         alt="Sourabh Mazumdar" 
@@ -345,8 +344,8 @@
         <section id="view-gallery" class="view-section hidden-view space-y-6 sm:space-y-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-neutral-900 pb-4 sm:pb-6">
                 <div>
-                    <h2 class="text-2xl sm:text-3xl font-light text-white tracking-tight">Art & Sculpture Collection</h2>
-                    <p class="text-neutral-500 text-xs sm:text-sm mt-1">Live artwork records synchronized directly from Firebase.</p>
+                    <h2 class="text-2xl sm:text-3xl font-light text-white tracking-tight">Collection</h2>
+                    <p class="text-neutral-500 text-xs sm:text-sm mt-1">Paintings and Sculptures by Sourabh Mazumdar</p>
                 </div>
                 <div id="filter-container" class="w-full md:w-auto flex items-center gap-2 text-xs overflow-x-auto pb-2 md:pb-0 scrollbar-none"></div>
             </div>
@@ -403,25 +402,22 @@
         <section id="view-contact" class="view-section hidden-view space-y-8 sm:space-y-10">
             <div class="border-b border-neutral-900 pb-4 sm:pb-6">
                 <h2 class="text-2xl sm:text-3xl font-light text-white tracking-tight">Get in Touch</h2>
-                <p class="text-neutral-500 text-xs sm:text-sm mt-1">Inquiries for commissions, exhibition opportunities, or general communication.</p>
+                <p class="text-neutral-500 text-xs sm:text-sm mt-1">Contact for Enquiries, exhibition details, tutoring.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="space-y-6 md:col-span-1 border-r-0 md:border-r border-neutral-900 pr-0 md:pr-6">
                     <div class="space-y-2">
-                        <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">LOCATION</h3>
-                        <p class="text-sm text-neutral-300">New Delhi / Allahabad, India</p>
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">Ph. Number</h3>
+                        <p class="text-sm text-neutral-300">8447505205</p>
                     </div>
 
                     <div class="space-y-2">
-                        <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">DISCIPLINE</h3>
-                        <p class="text-sm text-neutral-300">Fine Sculpture, Marble Carving, Bronze & Mixed Media</p>
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">Email IDs</h3>
+                        <p class="text-sm text-neutral-300">Sourabh.111066@gmail.com</br>Sourabh.mzmdr@gmail.com</p>
                     </div>
 
-                    <div class="space-y-2">
-                        <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">REPRESENTATION</h3>
-                        <p class="text-sm text-neutral-300">Independent Studio Practice</p>
-                    </div>
+                   
                 </div>
 
                 <div class="md:col-span-2 border border-neutral-800 bg-neutral-950 p-6 sm:p-8 rounded-2xl shadow-xl">
@@ -1056,30 +1052,41 @@
             if (window.lucide) window.lucide.createIcons();
         }
 
+        /* --- YEAR-BASED FILTER SYSTEM --- */
         function updateFilterButtons(items) {
             const filterContainer = document.getElementById('filter-container');
             if (!filterContainer) return;
 
-            const presentCategories = new Set();
+            const presentYears = new Set();
+            let hasUndated = false;
+
             items.forEach(item => {
-                if (item.category && item.category.trim() !== "") {
-                    presentCategories.add(item.category.trim().toLowerCase());
+                if (item.year && item.year.trim() !== "") {
+                    presentYears.add(item.year.trim());
+                } else {
+                    hasUndated = true;
                 }
             });
 
-            filterContainer.innerHTML = '';
-            filterContainer.appendChild(createFilterButton('all', 'All', currentFilter === 'all'));
+            // Sort years in descending chronological order
+            const sortedYears = Array.from(presentYears).sort((a, b) => b.localeCompare(a));
 
-            presentCategories.forEach(cat => {
-                const label = cat.charAt(0).toUpperCase() + cat.slice(1);
-                filterContainer.appendChild(createFilterButton(cat, label, currentFilter === cat));
+            filterContainer.innerHTML = '';
+            filterContainer.appendChild(createFilterButton('all', 'All Years', currentFilter === 'all'));
+
+            sortedYears.forEach(year => {
+                filterContainer.appendChild(createFilterButton(year, year, currentFilter === year));
             });
+
+            if (hasUndated) {
+                filterContainer.appendChild(createFilterButton('undated', 'Undated', currentFilter === 'undated'));
+            }
         }
 
-        function createFilterButton(catKey, label, isActive) {
+        function createFilterButton(yearKey, label, isActive) {
             const btn = document.createElement('button');
-            btn.onclick = () => filterGallery(catKey);
-            btn.className = `px-3 py-1.5 rounded border transition-all duration-300 text-xs capitalize shrink-0 ${
+            btn.onclick = () => filterGallery(yearKey);
+            btn.className = `px-3 py-1.5 rounded border transition-all duration-300 text-xs shrink-0 ${
                 isActive ? 'bg-white text-black border-white font-medium' : 'border-neutral-800 text-neutral-400 hover:text-white'
             }`;
             btn.innerText = label;
@@ -1090,12 +1097,18 @@
             const grid = document.getElementById('gallery-grid');
             grid.innerHTML = '';
 
-            const filtered = currentFilter === 'all' 
-                ? items 
-                : items.filter(a => (a.category || '').toLowerCase() === currentFilter.toLowerCase());
+            let filtered = [];
+            if (currentFilter === 'all') {
+                // Sort all items chronologically by year (descending)
+                filtered = [...items].sort((a, b) => (b.year || '').localeCompare(a.year || ''));
+            } else if (currentFilter === 'undated') {
+                filtered = items.filter(a => !a.year || a.year.trim() === '');
+            } else {
+                filtered = items.filter(a => (a.year || '').trim() === currentFilter);
+            }
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-16 text-center text-neutral-600 font-mono text-xs">No artworks in this category.</div>`;
+                grid.innerHTML = `<div class="col-span-full py-16 text-center text-neutral-600 font-mono text-xs">No artworks found for this selection.</div>`;
                 return;
             }
 
@@ -1139,8 +1152,8 @@
             if (window.lucide) window.lucide.createIcons();
         };
 
-        window.filterGallery = function(category) {
-            currentFilter = category.toLowerCase();
+        window.filterGallery = function(yearKey) {
+            currentFilter = yearKey;
             updateFilterButtons(artworksList);
             renderGallery(artworksList);
         };
