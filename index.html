@@ -4,20 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Sourabh Mazumdar</title>
-    <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/Favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         black: '#000000',
-                        dark: '#080808',
-                        card: '#0D0D0D',
-                        border: '#1F1F1F',
+                        dark: '#0A0A0A',
+                        card: '#121212',
+                        border: '#222222',
                     },
                     fontFamily: {
                         sf: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
@@ -29,297 +30,145 @@
     
     <style>
         body {
-            background-color: #000000;
-            color: #E5E5E5;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
             letter-spacing: -0.015em;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Keyframe Animations */
-        @keyframes fadeSlideIn {
-            0% {
-                opacity: 0;
-                transform: translateY(12px) scale(0.99);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+        @keyframes smoothFadeIn {
+            0% { opacity: 0; transform: translateY(16px) scale(0.995); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        @keyframes modalScale {
-            0% {
-                opacity: 0;
-                transform: scale(0.95) translateY(10px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+        @keyframes modalSmoothScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(12px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* Vault Keyframes */
-        @keyframes vaultSpinWheel {
-            0% { transform: rotate(0deg); }
-            60% { transform: rotate(1080deg); }
-            75% { transform: rotate(1040deg); }
-            85% { transform: rotate(1080deg); }
-            100% { transform: rotate(1080deg); }
-        }
+        .view-section { transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .hidden-view { display: none !important; opacity: 0; transform: translateY(12px); }
+        .visible-view { display: block !important; animation: smoothFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-        @keyframes vaultRetractPins {
-            0%, 55% { transform: scaleX(1); opacity: 1; }
-            70%, 100% { transform: scaleX(0); opacity: 0; }
-        }
-
-        @keyframes vaultDoorLeft {
-            0%, 75% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        @keyframes vaultDoorRight {
-            0%, 75% { transform: translateX(0); }
-            100% { transform: translateX(100%); }
-        }
-
-        @keyframes gateSlideUp {
-            0%, 75% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-100%); opacity: 0; }
-        }
-
-        @keyframes vaultGlowPulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
-        }
-
-        .animate-vault-wheel {
-            animation: vaultSpinWheel 7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .animate-vault-pins {
-            animation: vaultRetractPins 7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .animate-vault-left {
-            animation: vaultDoorLeft 10s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-        }
-
-        .animate-vault-right {
-            animation: vaultDoorRight 10s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-        }
-
-        .animate-gate-slide {
-            animation: gateSlideUp 10s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-        }
-
-        .animate-vault-glow {
-            animation: vaultGlowPulse 2s infinite ease-in-out;
-        }
-
-        .view-section { 
-            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .hidden-view { 
-            display: none !important; 
-            opacity: 0; 
-            transform: translateY(12px); 
-        }
-
-        .visible-view { 
-            display: block !important; 
-            animation: fadeSlideIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* Liquid Glass Oval Button */
         .liquid-glass-btn {
             position: relative;
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            box-shadow: 
-                0 8px 32px 0 rgba(0, 0, 0, 0.8),
-                inset 0 1px 1px 0 rgba(255, 255, 255, 0.35),
-                inset 0 -1px 1px 0 rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 9999px;
             overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            box-sizing: border-box;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none !important;
         }
 
-        .liquid-glass-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.28),
-                transparent
-            );
-            transition: left 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+        .dark .liquid-glass-btn {
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.6), inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .light .liquid-glass-btn {
+            background: rgba(0, 0, 0, 0.06);
+            box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
         }
 
         .liquid-glass-btn:hover {
-            background: rgba(255, 255, 255, 0.09);
-            border-color: rgba(255, 255, 255, 0.45);
-            box-shadow: 
-                0 12px 40px 0 rgba(255, 255, 255, 0.15),
-                inset 0 1px 2px 0 rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
-        }
-
-        .liquid-glass-btn:hover::before {
-            left: 150%;
         }
 
         .interactive-card {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
         .interactive-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 16px 36px -10px rgba(0,0,0,0.8);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.25);
         }
 
         .modal-animated {
-            animation: modalScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: modalSmoothScale 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        img {
-            transition: opacity 0.5s ease-in-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        img.lazy-load {
-            opacity: 0;
-        }
-        img.loaded {
-            opacity: 1;
-        }
+        img { transition: opacity 0.4s ease-in-out, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        img.lazy-load { opacity: 0; }
+        img.loaded { opacity: 1; }
 
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #444; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.3); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(150, 150, 150, 0.5); }
     </style>
 </head>
-<body class="bg-black text-neutral-200 font-sf min-h-screen selection:bg-neutral-800 selection:text-white">
-
-    <!-- 10-SECOND VAULT UNLOCKING OVERLAY -->
-    <div id="vault-overlay" class="fixed inset-0 z-[100] bg-black hidden items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.15)_0%,_rgba(0,0,0,1)_70%)] animate-vault-glow pointer-events-none"></div>
-
-        <div class="absolute z-10 flex flex-col items-center justify-center text-center space-y-3 px-4">
-            <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[0_0_50px_rgba(16,185,129,0.3)]">
-                <i data-lucide="shield-check" class="w-8 h-8"></i>
-            </div>
-            <h2 class="text-xl sm:text-2xl font-mono uppercase tracking-[0.3em] text-emerald-400 font-bold">ACCESS GRANTED</h2>
-            <p class="text-xs font-mono text-neutral-500 tracking-widest uppercase">Decryption Complete • Initializing Console</p>
-        </div>
-
-        <div id="vault-gate" class="absolute inset-0 z-25 flex flex-col justify-between pointer-events-none opacity-40">
-            <div class="w-full h-full border-b-2 border-neutral-700 bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        </div>
-
-        <div id="vault-door-left" class="absolute top-0 left-0 w-1/2 h-full bg-neutral-950 border-r-2 border-neutral-800 z-20 flex items-center justify-end pr-4 sm:pr-12 shadow-[20px_0_50px_rgba(0,0,0,0.9)]">
-            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_left,_var(--tw-gradient-stops))] from-neutral-900/40 via-neutral-950 to-black"></div>
-            <div class="space-y-12 z-30 animate-vault-pins origin-right">
-                <div class="w-12 sm:w-20 h-4 bg-gradient-to-r from-neutral-700 to-neutral-400 rounded-l-md border border-neutral-500 shadow-md"></div>
-                <div class="w-12 sm:w-20 h-4 bg-gradient-to-r from-neutral-700 to-neutral-400 rounded-l-md border border-neutral-500 shadow-md"></div>
-                <div class="w-12 sm:w-20 h-4 bg-gradient-to-r from-neutral-700 to-neutral-400 rounded-l-md border border-neutral-500 shadow-md"></div>
-            </div>
-        </div>
-
-        <div id="vault-door-right" class="absolute top-0 right-0 w-1/2 h-full bg-neutral-950 border-l-2 border-neutral-800 z-20 flex items-center justify-start pl-4 sm:pl-12 shadow-[-20px_0_50px_rgba(0,0,0,0.9)]">
-            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-neutral-900/40 via-neutral-950 to-black"></div>
-            <div class="space-y-12 z-30 animate-vault-pins origin-left">
-                <div class="w-12 sm:w-20 h-4 bg-gradient-to-l from-neutral-700 to-neutral-400 rounded-r-md border border-neutral-500 shadow-md"></div>
-                <div class="w-12 sm:w-20 h-4 bg-gradient-to-l from-neutral-700 to-neutral-400 rounded-r-md border border-neutral-500 shadow-md"></div>
-                <div class="w-12 sm:w-20 h-4 bg-gradient-to-l from-neutral-700 to-neutral-400 rounded-r-md border border-neutral-500 shadow-md"></div>
-            </div>
-        </div>
-
-        <div id="vault-center-lock" class="absolute z-30 flex flex-col items-center justify-center">
-            <div id="vault-wheel" class="w-56 h-56 sm:w-80 sm:h-80 rounded-full border-8 border-neutral-800 bg-neutral-900/90 shadow-[0_0_80px_rgba(0,0,0,1)] flex items-center justify-center relative animate-vault-wheel">
-                <div class="absolute inset-2 rounded-full border-2 border-dashed border-neutral-700 opacity-60"></div>
-                <div class="absolute w-full h-3 bg-neutral-800 rounded-full"></div>
-                <div class="absolute w-3 h-full bg-neutral-800 rounded-full"></div>
-                <div class="absolute w-full h-3 bg-neutral-800 rounded-full rotate-45"></div>
-                <div class="absolute w-3 h-full bg-neutral-800 rounded-full rotate-45"></div>
-
-                <div class="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-neutral-700 via-neutral-900 to-black border-4 border-neutral-600 flex items-center justify-center shadow-inner z-10">
-                    <div class="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/60 animate-pulse"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+<body class="bg-white dark:bg-black text-neutral-800 dark:text-neutral-200 font-sf min-h-screen selection:bg-neutral-200 dark:selection:bg-neutral-800 selection:text-black dark:selection:text-white transition-colors duration-300">
 
     <!-- Header Navigation -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-neutral-900 px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-neutral-200/80 dark:border-neutral-900/80 px-4 sm:px-8 py-3.5 sm:py-4.5 transition-colors duration-300">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
             <div class="w-full sm:w-auto flex justify-between items-center">
-                <div class="flex items-center gap-2.5">
-                    <button id="admin-login-dot" onclick="handleDotClick()" title="Admin Login" class="w-3 h-3 bg-white rounded-full hover:scale-150 transition-transform duration-300 focus:outline-none cursor-pointer p-1"></button>
-                    <span onclick="switchTab('bio')" class="text-xs sm:text-sm font-semibold tracking-widest uppercase text-white cursor-pointer select-none hover:opacity-80 transition-opacity duration-300">Sourabh Mazumdar</span>
+                <div class="flex items-center gap-3">
+                    <button id="admin-login-dot" onclick="handleDotClick()" title="Admin Login" class="w-2.5 h-2.5 bg-neutral-900 dark:bg-white rounded-full hover:scale-150 transition-all duration-300 focus:outline-none cursor-pointer"></button>
+                    <span onclick="switchTab('bio')" class="text-xs sm:text-sm font-semibold tracking-widest uppercase text-neutral-900 dark:text-white cursor-pointer select-none hover:opacity-75 transition-opacity duration-300">Sourabh Mazumdar</span>
                 </div>
-                <span id="mobile-current-tab" class="sm:hidden text-[10px] font-mono uppercase text-neutral-500 bg-neutral-900 px-2 py-0.5 rounded">Bio</span>
+                <div class="flex items-center gap-2 sm:hidden">
+                    <span id="mobile-current-tab" class="text-[10px] font-mono uppercase text-neutral-500 bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded-md">Bio</span>
+                    <button onclick="toggleTheme()" class="p-2 rounded-xl border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white cursor-pointer transition-colors">
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                    </button>
+                </div>
             </div>
 
-            <nav class="w-full sm:w-auto flex items-center justify-start sm:justify-end gap-2 sm:gap-6 text-xs uppercase tracking-wider font-medium overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
-                <button id="nav-bio-btn" onclick="switchTab('bio')" class="text-white transition-all duration-300 flex items-center gap-1.5 shrink-0 px-2.5 py-1 sm:p-0 rounded-lg bg-neutral-900 sm:bg-transparent border border-neutral-800 sm:border-none">
-                    <i data-lucide="user" class="w-3.5 h-3.5"></i> Bio
-                </button>
-                <button id="nav-gallery-btn" onclick="switchTab('gallery')" class="text-neutral-400 hover:text-white transition-all duration-300 flex items-center gap-1.5 shrink-0 px-2.5 py-1 sm:p-0 rounded-lg bg-neutral-900/50 sm:bg-transparent border border-neutral-800/50 sm:border-none">
-                    <i data-lucide="grid" class="w-3.5 h-3.5"></i> Gallery
-                </button>
-                <button id="nav-timeline-btn" onclick="switchTab('timeline')" class="text-neutral-400 hover:text-white transition-all duration-300 flex items-center gap-1.5 shrink-0 px-2.5 py-1 sm:p-0 rounded-lg bg-neutral-900/50 sm:bg-transparent border border-neutral-800/50 sm:border-none">
-                    <i data-lucide="award" class="w-3.5 h-3.5"></i> History
-                </button>
-                <button id="nav-contact-btn" onclick="switchTab('contact')" class="text-neutral-400 hover:text-white transition-all duration-300 flex items-center gap-1.5 shrink-0 px-2.5 py-1 sm:p-0 rounded-lg bg-neutral-900/50 sm:bg-transparent border border-neutral-800/50 sm:border-none">
-                    <i data-lucide="mail" class="w-3.5 h-3.5"></i> Contact
-                </button>
-                <button id="nav-admin-btn" onclick="switchTab('admin')" class="hidden text-neutral-400 hover:text-white transition-all duration-300 flex items-center gap-1.5 shrink-0 px-2.5 py-1 sm:p-0 rounded-lg bg-neutral-900/50 sm:bg-transparent border border-neutral-800/50 sm:border-none">
-                    <i data-lucide="shield" class="w-3.5 h-3.5"></i> Admin
+            <nav class="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-1.5 sm:gap-6 text-xs uppercase tracking-wider font-medium overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+                <div class="flex items-center gap-1.5 sm:gap-6 overflow-x-auto">
+                    <button id="nav-bio-btn" onclick="switchTab('bio')" class="transition-all duration-300 flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-xl border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800">
+                        <i data-lucide="user" class="w-3.5 h-3.5"></i> Bio
+                    </button>
+                    <button id="nav-gallery-btn" onclick="switchTab('gallery')" class="transition-all duration-300 flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-xl border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800 text-neutral-500 dark:text-neutral-400">
+                        <i data-lucide="grid" class="w-3.5 h-3.5"></i> Gallery
+                    </button>
+                    <button id="nav-timeline-btn" onclick="switchTab('timeline')" class="transition-all duration-300 flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-xl border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800 text-neutral-500 dark:text-neutral-400">
+                        <i data-lucide="award" class="w-3.5 h-3.5"></i> History
+                    </button>
+                    <button id="nav-contact-btn" onclick="switchTab('contact')" class="transition-all duration-300 flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-xl border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800 text-neutral-500 dark:text-neutral-400">
+                        <i data-lucide="mail" class="w-3.5 h-3.5"></i> Contact
+                    </button>
+                    <button id="nav-admin-btn" onclick="switchTab('admin')" class="hidden transition-all duration-300 flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-xl border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800 text-neutral-500 dark:text-neutral-400">
+                        <i data-lucide="shield" class="w-3.5 h-3.5"></i> Admin
+                    </button>
+                </div>
+                <button onclick="toggleTheme()" class="hidden sm:flex p-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-all cursor-pointer shrink-0" title="Toggle Theme">
+                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
                 </button>
             </nav>
         </div>
     </header>
 
     <!-- Main Container -->
-    <main class="pt-28 sm:pt-32 pb-20 px-4 sm:px-6 max-w-5xl mx-auto">
+    <main class="pt-32 sm:pt-36 pb-24 px-4 sm:px-8 max-w-5xl mx-auto">
 
         <!-- ================= BIOGRAPHY VIEW ================= -->
-        <section id="view-bio" class="view-section visible-view space-y-8 sm:space-y-12">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8 border-b border-neutral-900 pb-8 sm:pb-12">
+        <section id="view-bio" class="view-section visible-view space-y-10 sm:space-y-16">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8 border-b border-neutral-200 dark:border-neutral-900 pb-10 sm:pb-14">
                 <div class="space-y-3 sm:space-y-4">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800 bg-neutral-950 text-neutral-400 text-[11px] sm:text-xs tracking-wider uppercase">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950 text-neutral-600 dark:text-neutral-400 text-[11px] sm:text-xs tracking-wider uppercase">
                         <span>Sculptor & Artist</span>
                     </div>
-                    <h1 class="text-3xl sm:text-5xl md:text-6xl font-light tracking-tight text-white leading-tight">
+                    <h1 class="text-3xl sm:text-5xl md:text-6xl font-light tracking-tight text-neutral-900 dark:text-white leading-tight">
                         Sourabh Mazumdar
                     </h1>
                 </div>
 
                 <div class="flex-shrink-0">
-                    <button onclick="switchTab('gallery')" class="liquid-glass-btn w-full sm:w-auto px-7 py-3.5 sm:py-4 flex items-center justify-center gap-3 text-white font-medium text-xs sm:text-sm tracking-wider uppercase group leading-none">
+                    <button onclick="switchTab('gallery')" class="liquid-glass-btn w-full sm:w-auto px-8 py-4 flex items-center justify-center gap-3 text-neutral-900 dark:text-white font-medium text-xs sm:text-sm tracking-wider uppercase group cursor-pointer">
                         <span>Enter Gallery</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"></i>
+                        <i data-lucide="arrow-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="space-y-5 sm:space-y-6 text-neutral-300 font-normal leading-relaxed text-sm sm:text-base md:text-lg border-b border-neutral-900 pb-8 sm:pb-12">
+            <div class="space-y-6 text-neutral-600 dark:text-neutral-300 font-normal leading-relaxed text-sm sm:text-base md:text-lg border-b border-neutral-200 dark:border-neutral-900 pb-10 sm:pb-14">
                 <div class="flex justify-center md:justify-start pb-4">
-                    <img 
-                        src="pfp.jpeg" 
-                        alt="Sourabh Mazumdar" 
-                        class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover object-top border-2 border-neutral-800 shadow-2xl"
-                    />
+                    <img src="pfp.jpeg" alt="Sourabh Mazumdar" class="w-32 h-32 md:w-40 md:h-40 rounded-2xl object-cover object-top border border-neutral-200 dark:border-neutral-800 shadow-2xl" />
                 </div>
                 <p>Born on 11 October in Allahabad, Uttar Pradesh, Sourabh Mazumdar is a sculptor whose artistic journey has been shaped by a sustained engagement with form, material and the expressive possibilities of sculpture.</p>
                 <p>Mazumdar began his formal education in art at the Government College of Arts & Crafts, Lucknow University, where he studied Fine Arts with a focus on Sculpture and Drawing from 1988 to 1993. He subsequently pursued postgraduate studies in sculpture at the College of Art, University of Delhi, completing his M.F.A. (Post Graduate Diploma) between 1998 and 2000.</p>
@@ -331,248 +180,154 @@
                 <p>Today, his works form part of institutional and private collections in India and abroad, reflecting the international reach of his practice and his continuing contribution to contemporary Indian sculpture.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 pt-2 text-xs font-mono text-neutral-400">
-                <div class="p-3.5 sm:p-4 border border-neutral-900 rounded-lg bg-neutral-950 transition-colors duration-300 hover:border-neutral-800"><span class="block text-neutral-600 mb-1 text-[10px] sm:text-xs">ORIGIN</span><span class="text-neutral-200">Allahabad (UP), India</span></div>
-                <div class="p-3.5 sm:p-4 border border-neutral-900 rounded-lg bg-neutral-950 transition-colors duration-300 hover:border-neutral-800"><span class="block text-neutral-600 mb-1 text-[10px] sm:text-xs">EDUCATION</span><span class="text-neutral-200">B.F.A. Lucknow, M.F.A. Delhi</span></div>
-                <div class="p-3.5 sm:p-4 border border-neutral-900 rounded-lg bg-neutral-950 transition-colors duration-300 hover:border-neutral-800"><span class="block text-neutral-600 mb-1 text-[10px] sm:text-xs">SWISS RESIDENCY</span><span class="text-neutral-200">Margaret Arp Foundation (1997)</span></div>
-                <div class="p-3.5 sm:p-4 border border-neutral-900 rounded-lg bg-neutral-950 transition-colors duration-300 hover:border-neutral-800"><span class="block text-neutral-600 mb-1 text-[10px] sm:text-xs">FOOTPRINT</span><span class="text-neutral-200">Global Collections</span></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono text-neutral-500 dark:text-neutral-400">
+                <div class="p-4 border border-neutral-200 dark:border-neutral-900 rounded-2xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl"><span class="block text-neutral-400 mb-1 text-[10px]">ORIGIN</span><span class="text-neutral-800 dark:text-neutral-200 font-medium">Allahabad (UP), India</span></div>
+                <div class="p-4 border border-neutral-200 dark:border-neutral-900 rounded-2xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl"><span class="block text-neutral-400 mb-1 text-[10px]">EDUCATION</span><span class="text-neutral-800 dark:text-neutral-200 font-medium">B.F.A. Lucknow, M.F.A. Delhi</span></div>
+                <div class="p-4 border border-neutral-200 dark:border-neutral-900 rounded-2xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl"><span class="block text-neutral-400 mb-1 text-[10px]">SWISS RESIDENCY</span><span class="text-neutral-800 dark:text-neutral-200 font-medium">Margaret Arp Foundation (1997)</span></div>
+                <div class="p-4 border border-neutral-200 dark:border-neutral-900 rounded-2xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl"><span class="block text-neutral-400 mb-1 text-[10px]">FOOTPRINT</span><span class="text-neutral-800 dark:text-neutral-200 font-medium">Global Collections</span></div>
             </div>
         </section>
 
-
         <!-- ================= GALLERY VIEW ================= -->
-        <section id="view-gallery" class="view-section hidden-view space-y-6 sm:space-y-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-neutral-900 pb-4 sm:pb-6">
+        <section id="view-gallery" class="view-section hidden-view space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-neutral-200 dark:border-neutral-900 pb-6">
                 <div>
-                    <h2 class="text-2xl sm:text-3xl font-light text-white tracking-tight">Collection</h2>
+                    <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Collection</h2>
                     <p class="text-neutral-500 text-xs sm:text-sm mt-1">Paintings and Sculptures by Sourabh Mazumdar</p>
                 </div>
                 <div id="filter-container" class="w-full md:w-auto flex items-center gap-2 text-xs overflow-x-auto pb-2 md:pb-0 scrollbar-none"></div>
             </div>
 
-            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                <div class="col-span-full py-20 text-center text-neutral-600 font-mono text-sm">
-                    Loading gallery items...
+            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="col-span-full py-20 text-center text-neutral-400 font-mono text-sm">
+                    Loading collection items...
                 </div>
             </div>
         </section>
 
-
-        <!-- ================= CV & TIMELINE VIEW ================= -->
-        <section id="view-timeline" class="view-section hidden-view space-y-8 sm:space-y-12">
-            <div class="border-b border-neutral-900 pb-4 sm:pb-6">
-                <h2 class="text-2xl sm:text-3xl font-light text-white tracking-tight">Curriculum Vitae & History</h2>
+        <!-- ================= TIMELINE VIEW ================= -->
+        <section id="view-timeline" class="view-section hidden-view space-y-10">
+            <div class="border-b border-neutral-200 dark:border-neutral-900 pb-6">
+                <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Curriculum Vitae & History</h2>
                 <p class="text-neutral-500 text-xs sm:text-sm mt-1">Exhibitions, international residencies, and artistic milestones.</p>
             </div>
 
-            <div class="space-y-6 sm:space-y-8 text-xs sm:text-sm">
-                <div class="space-y-2 border-b border-neutral-900 pb-6">
-                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-500">FORMAL EDUCATION</h3>
-                    <ul class="text-neutral-300 space-y-2">
-                        <li><strong class="text-white">1988 – 1993:</strong> Fine Arts (Sculpture & Drawing), Government College of Arts & Crafts, Lucknow University</li>
-                        <li><strong class="text-white">1998 – 2000:</strong> M.F.A. (Post Graduate Diploma) in Sculpture, College of Art, University of Delhi</li>
+            <div class="space-y-8 text-xs sm:text-sm">
+                <div class="space-y-3 border-b border-neutral-200 dark:border-neutral-900 pb-8">
+                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400">FORMAL EDUCATION</h3>
+                    <ul class="text-neutral-600 dark:text-neutral-300 space-y-2.5">
+                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1988 – 1993:</strong> Fine Arts (Sculpture & Drawing), Government College of Arts & Crafts, Lucknow University</span></li>
+                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1998 – 2000:</strong> M.F.A. (Post Graduate Diploma) in Sculpture, College of Art, University of Delhi</span></li>
                     </ul>
                 </div>
 
-                <div class="space-y-2 border-b border-neutral-900 pb-6">
-                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-500">INTERNATIONAL RESIDENCY</h3>
-                    <p class="text-neutral-300"><strong class="text-white">1997:</strong> Margaret Arp Foundation, Switzerland (Sponsored by Pro Helvetia, Switzerland) — Marble Sculpture Specialization</p>
-                    <p class="text-neutral-300"><strong class="text-white">1998:</strong> Sculpture Exhibition with Scuola di Scultura di Peccia at Teatro Dimitri, Verscio, Switzerland</p>
+                <div class="space-y-3 border-b border-neutral-200 dark:border-neutral-900 pb-8">
+                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400">INTERNATIONAL RESIDENCY</h3>
+                    <div class="space-y-2.5 text-neutral-600 dark:text-neutral-300">
+                        <p class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1997:</strong> Margaret Arp Foundation, Switzerland (Sponsored by Pro Helvetia, Switzerland) — Marble Sculpture Specialization</span></p>
+                        <p class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1998:</strong> Sculpture Exhibition with Scuola di Scultura di Peccia at Teatro Dimitri, Verscio, Switzerland</span></p>
+                    </div>
                 </div>
 
-                <div class="space-y-2 border-b border-neutral-900 pb-6">
-                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-500">SOLO EXHIBITIONS</h3>
-                    <ul class="text-neutral-300 space-y-2">
-                        <li><strong class="text-white">1993:</strong> Uttar Pradesh Lalit Kala Academy, Lucknow</li>
-                        <li><strong class="text-white">1996:</strong> Triveni Kala Sangam, New Delhi</li>
-                        <li><strong class="text-white">1998:</strong> Academy of Fine Arts, Kolkata</li>
-                        <li><strong class="text-white">1999:</strong> Birla Academy of Art & Culture, Kolkata</li>
+                <div class="space-y-3 border-b border-neutral-200 dark:border-neutral-900 pb-8">
+                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400">SOLO EXHIBITIONS</h3>
+                    <ul class="text-neutral-600 dark:text-neutral-300 space-y-2.5">
+                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1993:</strong> Uttar Pradesh Lalit Kala Academy, Lucknow</span></li>
+                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1996:</strong> Triveni Kala Sangam, New Delhi</span></li>
+                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1998:</strong> Academy of Fine Arts, Kolkata</span></li>
+                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1999:</strong> Birla Academy of Art & Culture, Kolkata</span></li>
                     </ul>
                 </div>
 
-                <div class="space-y-2">
-                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-500">INTERNATIONAL & DOMESTIC COLLECTIONS</h3>
-                    <p class="text-neutral-300">Switzerland, France, Japan, Belgium, Australia, New Delhi, Allahabad, Kolkata, and private global collections.</p>
+                <div class="space-y-3">
+                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400">INTERNATIONAL & DOMESTIC COLLECTIONS</h3>
+                    <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">Switzerland, France, Japan, Belgium, Australia, New Delhi, Allahabad, Kolkata, and private global collections.</p>
                 </div>
             </div>
         </section>
 
-
-        <!-- ================= CONTACT TAB VIEW (EMAILJS) ================= -->
-        <section id="view-contact" class="view-section hidden-view space-y-8 sm:space-y-10">
-            <div class="border-b border-neutral-900 pb-4 sm:pb-6">
-                <h2 class="text-2xl sm:text-3xl font-light text-white tracking-tight">Get in Touch</h2>
-                <p class="text-neutral-500 text-xs sm:text-sm mt-1">Contact for Enquiries, exhibition details, tutoring.</p>
+        <!-- ================= CONTACT VIEW ================= -->
+        <section id="view-contact" class="view-section hidden-view space-y-10">
+            <div class="border-b border-neutral-200 dark:border-neutral-900 pb-6">
+                <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Get in Touch</h2>
+                <p class="text-neutral-500 text-xs sm:text-sm mt-1">Contact for enquiries, exhibition details, or collaborations.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="space-y-6 md:col-span-1 border-r-0 md:border-r border-neutral-900 pr-0 md:pr-6">
-                    <div class="space-y-2">
-                        <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">Ph. Number</h3>
-                        <p class="text-sm text-neutral-300">8447505205</p>
+                <div class="space-y-6 md:col-span-1 border-r-0 md:border-r border-neutral-200 dark:border-neutral-900 pr-0 md:pr-6">
+                    <div class="space-y-1.5">
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-400">Phone</h3>
+                        <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">8447505205</p>
                     </div>
 
-                    <div class="space-y-2">
-                        <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-500">Email IDs</h3>
-                        <p class="text-sm text-neutral-300">Sourabh.111066@gmail.com</br>Sourabh.mzmdr@gmail.com</p>
+                    <div class="space-y-1.5">
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-400">Email Addresses</h3>
+                        <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200 leading-relaxed">Sourabh.111066@gmail.com<br>Sourabh.mzmdr@gmail.com</p>
                     </div>
 
-                   
+                    <div class="space-y-3 pt-2">
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-400">Social Networks</h3>
+                        <div id="contact-socials-list" class="flex flex-wrap gap-3">
+                            <span class="text-xs text-neutral-400 font-mono">No socials added yet.</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="md:col-span-2 border border-neutral-800 bg-neutral-950 p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="md:col-span-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl shadow-xl">
                     <form id="contact-form" class="space-y-4 font-mono text-xs">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="space-y-1">
-                                <label class="text-neutral-400 block">YOUR NAME *</label>
-                                <input type="text" name="user_name" required placeholder="John Doe" class="w-full bg-black border border-neutral-800 rounded-lg p-3 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
+                            <div class="space-y-1.5">
+                                <label class="text-neutral-500 block">YOUR NAME *</label>
+                                <input type="text" name="user_name" required placeholder="John Doe" class="w-full bg-white/80 dark:bg-black/80 border border-neutral-200 dark:border-neutral-800 rounded-xl p-3.5 text-neutral-900 dark:text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors" />
                             </div>
-
-                            <div class="space-y-1">
-                                <label class="text-neutral-400 block">YOUR EMAIL *</label>
-                                <input type="email" name="user_email" required placeholder="john@example.com" class="w-full bg-black border border-neutral-800 rounded-lg p-3 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
+                            <div class="space-y-1.5">
+                                <label class="text-neutral-500 block">YOUR EMAIL *</label>
+                                <input type="email" name="user_email" required placeholder="john@example.com" class="w-full bg-white/80 dark:bg-black/80 border border-neutral-200 dark:border-neutral-800 rounded-xl p-3.5 text-neutral-900 dark:text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors" />
                             </div>
                         </div>
-
-                        <div class="space-y-1">
-                            <label class="text-neutral-400 block">SUBJECT</label>
-                            <input type="text" name="subject" placeholder="Inquiry regarding artwork / exhibition" class="w-full bg-black border border-neutral-800 rounded-lg p-3 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
+                        <div class="space-y-1.5">
+                            <label class="text-neutral-500 block">SUBJECT</label>
+                            <input type="text" name="subject" placeholder="Inquiry regarding artwork" class="w-full bg-white/80 dark:bg-black/80 border border-neutral-200 dark:border-neutral-800 rounded-xl p-3.5 text-neutral-900 dark:text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors" />
                         </div>
-
-                        <div class="space-y-1">
-                            <label class="text-neutral-400 block">MESSAGE *</label>
-                            <textarea name="message" rows="5" required placeholder="Write your message here..." class="w-full bg-black border border-neutral-800 rounded-lg p-3 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300"></textarea>
+                        <div class="space-y-1.5">
+                            <label class="text-neutral-500 block">MESSAGE *</label>
+                            <textarea name="message" rows="5" required placeholder="Write your message here..." class="w-full bg-white/80 dark:bg-black/80 border border-neutral-200 dark:border-neutral-800 rounded-xl p-3.5 text-neutral-900 dark:text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors"></textarea>
                         </div>
-
-                        <div id="contact-status" class="hidden p-3 rounded-lg text-xs font-mono"></div>
-
-                        <button type="submit" id="contact-submit-btn" class="w-full py-3.5 bg-white text-black font-semibold rounded-lg text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all duration-300 flex items-center justify-center gap-2">
-                            <i data-lucide="send" class="w-4 h-4"></i>
-                            <span>Send Message</span>
-                        </button>
+                        <div id="contact-status" class="hidden p-3 rounded-xl text-xs font-mono"></div>
+                        <button type="submit" id="contact-submit-btn" class="w-full py-4 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-xl text-xs uppercase tracking-wider hover:opacity-90 transition-all cursor-pointer shadow-md">Send Message</button>
                     </form>
                 </div>
             </div>
         </section>
 
-
-        <!-- ================= DEDICATED ADMIN TAB VIEW ================= -->
-        <section id="view-admin" class="view-section hidden-view space-y-6 sm:space-y-8">
-            <div class="flex justify-between items-center border-b border-neutral-900 pb-4 sm:pb-6">
+        <!-- ================= ADMIN VIEW ================= -->
+        <section id="view-admin" class="view-section hidden-view space-y-8">
+            <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-6">
                 <div>
-                    <h2 class="text-2xl sm:text-3xl font-light text-white tracking-tight">Admin Console</h2>
-                    <p class="text-neutral-500 text-xs sm:text-sm mt-0.5">Manage uploads, edit existing content & credentials.</p>
+                    <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Admin Console</h2>
+                    <p class="text-neutral-500 text-xs sm:text-sm mt-0.5">Manage gallery records, socials & credentials.</p>
                 </div>
-                <button onclick="logoutAdmin()" class="px-3.5 py-1.5 border border-red-900/60 bg-red-950/30 text-red-400 hover:bg-red-900/50 rounded-lg text-xs font-mono transition-all duration-300">
-                    Sign Out
-                </button>
+                <button onclick="logoutAdmin()" class="px-4 py-2 border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 text-red-600 rounded-xl text-xs font-mono cursor-pointer transition-colors hover:bg-red-100">Sign Out</button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Artwork Upload Form -->
-                <div class="md:col-span-2 border border-neutral-800 bg-neutral-950 p-4 sm:p-6 rounded-2xl space-y-4 shadow-xl">
-                    <h3 class="text-xs font-mono uppercase text-neutral-400">ADD NEW ARTWORK RECORD</h3>
-                    <form id="artwork-form" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-xs font-mono">
-                        <div class="space-y-1">
-                            <label class="text-neutral-400 block">TITLE *</label>
-                            <input type="text" id="art-title" required placeholder="Artwork Title" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
-                        </div>
+            <div class="flex flex-wrap gap-4">
+                <button onclick="openArtworkModal()" class="px-6 py-3.5 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:opacity-90 transition-all flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Add Artwork</button>
+                <button onclick="openSocialModal()" class="px-6 py-3.5 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:opacity-90 transition-all flex items-center gap-2"><i data-lucide="share-2" class="w-4 h-4"></i> Add Social Media</button>
+                <button onclick="openAddAdminModal()" class="px-6 py-3.5 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-white font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Add New Admin</button>
+            </div>
 
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="space-y-1">
-                                <label class="text-neutral-400 block">CATEGORY *</label>
-                                <select id="art-category" required class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300">
-                                    <option value="marble">Marble</option>
-                                    <option value="bronze">Bronze</option>
-                                    <option value="terracotta">Terracotta</option>
-                                    <option value="painting">Painting</option>
-                                    <option value="stone">Stone</option>
-                                    <option value="wood">Wood</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="space-y-1">
-                                <label class="text-neutral-400 block">YEAR</label>
-                                <input type="text" id="art-year" placeholder="1997" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
-                            </div>
-                        </div>
-
-                        <div class="space-y-1 md:col-span-2">
-                            <label class="text-neutral-400 block">MEDIUM / MATERIAL *</label>
-                            <input type="text" id="art-medium" required placeholder="e.g. Oil on Canvas or Carved Marble" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
-                        </div>
-
-                        <div class="md:col-span-2 space-y-2">
-                            <label class="text-neutral-400 block">ARTWORK IMAGE</label>
-                            <div id="file-dropzone" onclick="document.getElementById('art-file').click()" class="border-2 border-dashed border-neutral-800 hover:border-neutral-500 bg-black/50 hover:bg-neutral-900/40 rounded-xl p-4 sm:p-5 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center space-y-2 group">
-                                <input type="file" id="art-file" accept="image/*" class="hidden" onchange="handleFileSelect(this)" />
-                                
-                                <div id="file-prompt" class="flex flex-col items-center space-y-1">
-                                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-neutral-900 group-hover:bg-neutral-800 border border-neutral-800 flex items-center justify-center text-neutral-400 group-hover:text-white transition-all duration-300">
-                                        <i data-lucide="image-plus" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-                                    </div>
-                                    <span class="text-white font-medium text-xs mt-1">Tap to select photo</span>
-                                    <span class="text-neutral-500 text-[10px] sm:text-[11px] font-sans">PNG, JPG, WEBP up to 10MB</span>
-                                </div>
-
-                                <div id="file-info" class="hidden w-full flex items-center justify-between bg-neutral-900/80 border border-neutral-800 p-2.5 rounded-lg">
-                                    <div class="flex items-center space-x-2.5 overflow-hidden">
-                                        <i data-lucide="file-image" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
-                                        <span id="file-name" class="text-xs text-neutral-200 truncate font-sans">filename.jpg</span>
-                                        <span id="file-size" class="text-[10px] text-neutral-500 font-mono flex-shrink-0">1.2 MB</span>
-                                    </div>
-                                    <button type="button" onclick="event.stopPropagation(); clearSelectedFile()" class="p-1 hover:bg-neutral-800 rounded text-neutral-500 hover:text-red-400 transition-colors duration-200">
-                                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center space-x-2 my-1">
-                                <div class="h-px bg-neutral-900 flex-1"></div>
-                                <span class="text-[10px] text-neutral-600 uppercase font-mono">OR PASTE URL</span>
-                                <div class="h-px bg-neutral-900 flex-1"></div>
-                            </div>
-
-                            <input type="url" id="art-url" placeholder="Paste image web link..." class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
-                        </div>
-
-                        <div class="md:col-span-2 space-y-1">
-                            <label class="text-neutral-400 block">DESCRIPTION</label>
-                            <textarea id="art-desc" rows="2" placeholder="Artwork details or context..." class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300"></textarea>
-                        </div>
-
-                        <div class="md:col-span-2 pt-2">
-                            <button type="submit" id="submit-btn" class="w-full py-3 bg-white text-black font-semibold rounded-lg text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all duration-300 flex items-center justify-center gap-2">
-                                <i data-lucide="upload-cloud" class="w-4 h-4"></i>
-                                <span>Publish Artwork</span>
-                            </button>
-                        </div>
-                    </form>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                <div class="border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-2xl p-6 rounded-3xl space-y-4 shadow-xl">
+                    <h3 class="text-xs font-mono uppercase text-neutral-400">MANAGED SOCIAL ACCOUNTS</h3>
+                    <div id="admin-socials-list" class="space-y-2.5 font-mono text-xs max-h-52 overflow-y-auto">
+                        <div class="text-neutral-400 text-[11px]">Loading socials...</div>
+                    </div>
                 </div>
 
-                <!-- Admin Accounts Panel -->
-                <div class="border border-neutral-800 bg-neutral-950 p-4 sm:p-6 rounded-2xl space-y-4 shadow-xl">
-                    <h3 class="text-xs font-mono uppercase text-neutral-400">MANAGE ADMIN ACCOUNTS</h3>
-                    <form id="add-user-form" class="space-y-3 font-mono text-xs">
-                        <div>
-                            <label class="text-neutral-400 block mb-1">NEW USERNAME</label>
-                            <input type="text" id="new-admin-user" required placeholder="e.g. CoAdmin" class="w-full bg-black border border-neutral-800 rounded-lg p-2 text-white font-sans focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
-                        </div>
-                        <div>
-                            <label class="text-neutral-400 block mb-1">NEW PASSWORD</label>
-                            <input type="password" id="new-admin-pass" required placeholder="••••••••" class="w-full bg-black border border-neutral-800 rounded-lg p-2 text-white font-sans focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
-                        </div>
-                        <button type="submit" id="add-user-btn" class="w-full py-2.5 bg-neutral-800 hover:bg-neutral-700 text-white font-semibold rounded-lg text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5">
-                            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
-                            <span>Create Admin</span>
-                        </button>
-                    </form>
-
-                    <div class="pt-2">
-                        <span class="text-[10px] font-mono text-neutral-500 block mb-2">EXISTING ADMINS</span>
-                        <div id="admin-list" class="space-y-1.5 font-mono text-xs max-h-36 overflow-y-auto">
-                            <div class="text-neutral-600 text-[11px]">Loading accounts...</div>
-                        </div>
+                <div class="border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-2xl p-6 rounded-3xl space-y-4 shadow-xl">
+                    <h3 class="text-xs font-mono uppercase text-neutral-400">EXISTING ADMIN ACCOUNTS</h3>
+                    <div id="admin-list" class="space-y-2.5 font-mono text-xs max-h-52 overflow-y-auto">
+                        <div class="text-neutral-400 text-[11px]">Loading accounts...</div>
                     </div>
                 </div>
             </div>
@@ -580,110 +335,241 @@
 
     </main>
 
-    <!-- Artwork Full Detail Modal -->
-    <div id="art-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl hidden flex-col justify-center items-center p-4 sm:p-6 overflow-y-auto transition-all duration-300" onclick="closeArtModal()">
-        <div class="modal-animated max-w-3xl w-full text-center space-y-4 sm:space-y-6 my-auto" onclick="event.stopPropagation()">
-            <div class="relative w-full h-64 sm:h-96 md:h-[450px] border border-neutral-800 rounded-xl bg-neutral-950 overflow-hidden flex items-center justify-center p-2">
-                <img id="modal-image" src="" alt="Artwork" class="w-full h-full object-contain rounded-lg hidden" />
-                <div id="modal-placeholder" class="text-neutral-600 font-mono text-xs">No image provided</div>
+    <!-- MODAL: ADD SOCIAL -->
+    <div id="social-modal-overlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden justify-center items-center p-4 transition-all" onclick="closeSocialModal()">
+        <div class="modal-animated max-w-md w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl space-y-5 shadow-2xl border border-neutral-200 dark:border-neutral-800" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-3">
+                <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-900 dark:text-white">Add Social Media Record</h3>
+                <button onclick="closeSocialModal()" class="text-neutral-400 hover:text-neutral-900 dark:hover:text-white text-lg cursor-pointer">&times;</button>
+            </div>
+            <form id="social-form" class="space-y-3.5 font-mono text-xs">
+                <div>
+                    <label class="text-neutral-500 block mb-1">PLATFORM NAME *</label>
+                    <input type="text" id="social-name" required placeholder="Instagram" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">PROFILE URL *</label>
+                    <input type="url" id="social-link" required placeholder="https://instagram.com/..." class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">USERNAME *</label>
+                    <input type="text" id="social-username" required placeholder="@handle" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">LOGO IMAGE FILE *</label>
+                    <input type="file" id="social-file" accept="image/*" required class="w-full p-2 border rounded-xl text-xs text-neutral-500" />
+                </div>
+                <div class="pt-2 flex gap-3">
+                    <button type="button" onclick="closeSocialModal()" class="w-1/3 py-3 border rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
+                    <button type="submit" id="social-submit-btn" class="w-2/3 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold cursor-pointer hover:opacity-90 transition-opacity">Publish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD ARTWORK -->
+    <div id="artwork-modal-overlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden justify-center items-center p-4 transition-all" onclick="closeArtworkModal()">
+        <div class="modal-animated max-w-lg w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl space-y-5 shadow-2xl border border-neutral-200 dark:border-neutral-800 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-3">
+                <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-900 dark:text-white">Add Artwork Record</h3>
+                <button onclick="closeArtworkModal()" class="text-neutral-400 hover:text-neutral-900 dark:hover:text-white text-lg cursor-pointer">&times;</button>
+            </div>
+            <form id="artwork-form" class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">TITLE *</label>
+                    <input type="text" id="art-title" required placeholder="Artwork Title" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">CATEGORY *</label>
+                    <select id="art-category" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500">
+                        <option value="marble">Marble</option>
+                        <option value="bronze">Bronze</option>
+                        <option value="terracotta">Terracotta</option>
+                        <option value="painting">Painting</option>
+                        <option value="stone">Stone</option>
+                        <option value="wood">Wood</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">YEAR</label>
+                    <input type="text" id="art-year" placeholder="1997" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">MEDIUM / MATERIAL *</label>
+                    <input type="text" id="art-medium" required placeholder="e.g. Carved Marble" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">DIMENSIONS</label>
+                    <input type="text" id="art-dimensions" placeholder="e.g. 24 x 36 in" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">PRICE</label>
+                    <input type="text" id="art-price" placeholder="e.g. $1,200" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">IMAGE FILE OR URL</label>
+                    <input type="file" id="art-file" accept="image/*" class="w-full p-2 border rounded-xl text-xs text-neutral-500 mb-2" />
+                    <input type="url" id="art-url" placeholder="Or paste image web link..." class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">DESCRIPTION</label>
+                    <textarea id="art-desc" rows="2" placeholder="Artwork details..." class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500"></textarea>
+                </div>
+                <div class="md:col-span-2 pt-2 flex gap-3">
+                    <button type="button" onclick="closeArtworkModal()" class="w-1/3 py-3 border rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
+                    <button type="submit" id="submit-btn" class="w-2/3 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold cursor-pointer hover:opacity-90 transition-opacity">Publish Artwork</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD ADMIN -->
+    <div id="admin-modal-overlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden justify-center items-center p-4 transition-all" onclick="closeAddAdminModal()">
+        <div class="modal-animated max-w-sm w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl space-y-5 shadow-2xl border border-neutral-200 dark:border-neutral-800" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-3">
+                <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-900 dark:text-white">Add New Admin</h3>
+                <button onclick="closeAddAdminModal()" class="text-neutral-400 hover:text-neutral-900 dark:hover:text-white text-lg cursor-pointer">&times;</button>
+            </div>
+            <form id="add-user-form" class="space-y-3.5 font-mono text-xs">
+                <div>
+                    <label class="text-neutral-500 block mb-1">USERNAME</label>
+                    <input type="text" id="new-admin-user" required placeholder="Username" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">PASSWORD</label>
+                    <input type="password" id="new-admin-pass" required placeholder="••••••••" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div class="pt-2 flex gap-3">
+                    <button type="button" onclick="closeAddAdminModal()" class="w-1/3 py-3 border rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
+                    <button type="submit" id="add-user-btn" class="w-2/3 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold cursor-pointer hover:opacity-90 transition-opacity">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT ARTWORK RECORD -->
+    <div id="edit-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden justify-center items-center p-4 transition-all" onclick="closeEditModal()">
+        <div class="modal-animated max-w-lg w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl space-y-5 shadow-2xl border border-neutral-200 dark:border-neutral-800 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-3">
+                <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-900 dark:text-white">Edit Artwork Record</h3>
+                <button onclick="closeEditModal()" class="text-neutral-400 hover:text-neutral-900 dark:hover:text-white text-lg cursor-pointer">&times;</button>
+            </div>
+            <form id="edit-art-form" class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+                <input type="hidden" id="edit-doc-id" />
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">TITLE</label>
+                    <input type="text" id="edit-title" required class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">CATEGORY</label>
+                    <select id="edit-category" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500">
+                        <option value="marble">Marble</option>
+                        <option value="bronze">Bronze</option>
+                        <option value="terracotta">Terracotta</option>
+                        <option value="painting">Painting</option>
+                        <option value="stone">Stone</option>
+                        <option value="wood">Wood</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">YEAR</label>
+                    <input type="text" id="edit-year" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">MEDIUM</label>
+                    <input type="text" id="edit-medium" required class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">DIMENSIONS</label>
+                    <input type="text" id="edit-dimensions" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">PRICE</label>
+                    <input type="text" id="edit-price" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">IMAGE FILE OR URL</label>
+                    <input type="file" id="edit-file" accept="image/*" class="w-full p-2 border rounded-xl text-xs text-neutral-500 mb-2" />
+                    <input type="url" id="edit-url" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">DESCRIPTION</label>
+                    <textarea id="edit-desc" rows="2" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500"></textarea>
+                </div>
+                <div class="md:col-span-2 pt-2 flex gap-3">
+                    <button type="button" onclick="closeEditModal()" class="w-1/3 py-3 border rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
+                    <button type="submit" id="save-edit-btn" class="w-2/3 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold cursor-pointer hover:opacity-90 transition-opacity">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ARTWORK DETAIL FULL MODAL -->
+    <div id="art-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xl hidden flex-col justify-center items-center p-4 overflow-y-auto transition-all" onclick="closeArtModal()">
+        <div class="modal-animated max-w-2xl w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl border border-neutral-200 dark:border-neutral-800 text-center space-y-5 shadow-2xl" onclick="event.stopPropagation()">
+            <div class="w-full h-80 bg-black rounded-2xl overflow-hidden flex items-center justify-center border border-neutral-200 dark:border-neutral-800">
+                <img id="modal-image" class="w-full h-full object-contain hidden" />
+                <span id="modal-placeholder" class="text-xs font-mono text-neutral-500">No Image</span>
             </div>
             <div class="space-y-2">
-                <h3 id="modal-title" class="text-xl sm:text-2xl font-light text-white">Artwork Title</h3>
-                <p id="modal-desc" class="text-neutral-400 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed"></p>
-                <span id="modal-medium" class="inline-block text-[11px] font-mono px-3 py-1 border border-neutral-800 rounded text-neutral-500">Medium</span>
+                <h3 id="modal-title" class="text-2xl font-light text-neutral-900 dark:text-white"></h3>
+                <p id="modal-desc" class="text-xs sm:text-sm text-neutral-500 max-w-lg mx-auto leading-relaxed"></p>
             </div>
-            <button onclick="closeArtModal()" class="mt-4 px-6 py-2 bg-neutral-900 border border-neutral-800 rounded-full text-neutral-400 text-xs font-mono sm:hidden">Close</button>
+            <div class="flex flex-wrap justify-center gap-2.5 pt-1 font-mono text-xs">
+                <span id="modal-medium" class="px-3 py-1.5 border border-neutral-200 dark:border-neutral-800 rounded-xl text-neutral-400"></span>
+                <span id="modal-dimensions" class="px-3 py-1.5 border border-neutral-200 dark:border-neutral-800 rounded-xl text-neutral-400 hidden"></span>
+                <span id="modal-price" class="px-3 py-1.5 border border-neutral-200 dark:border-neutral-800 rounded-xl text-emerald-500 font-bold hidden"></span>
+            </div>
+            <button onclick="closeArtModal()" class="mt-2 px-6 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 text-xs font-mono sm:hidden cursor-pointer">Close</button>
         </div>
     </div>
 
-    <!-- ADMIN EDIT ARTWORK DATA MODAL -->
-    <div id="edit-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden justify-center items-center p-4 sm:p-6 transition-all duration-300" onclick="closeEditModal()">
-        <div class="modal-animated max-w-lg w-full border border-neutral-800 bg-neutral-950 p-5 sm:p-6 rounded-2xl space-y-4 shadow-2xl" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-center border-b border-neutral-900 pb-3">
-                <h3 class="text-xs sm:text-sm font-mono uppercase text-white tracking-widest">EDIT ARTWORK RECORD</h3>
-                <button onclick="closeEditModal()" class="text-neutral-500 hover:text-white text-lg transition-colors duration-200">&times;</button>
+    <!-- AUTH MODAL -->
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden justify-center items-center p-4 transition-all" onclick="closeAuthModal()">
+        <div class="modal-animated max-w-sm w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl space-y-4 shadow-2xl border border-neutral-200 dark:border-neutral-800" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-3">
+                <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-900 dark:text-white">Admin Authentication</h3>
+                <button onclick="closeAuthModal()" class="text-neutral-400 hover:text-neutral-900 dark:hover:text-white text-lg cursor-pointer">&times;</button>
             </div>
-
-            <form id="edit-art-form" class="space-y-3 font-mono text-xs">
-                <input type="hidden" id="edit-doc-id" />
-
-                <div class="space-y-1">
-                    <label class="text-neutral-400 block">TITLE</label>
-                    <input type="text" id="edit-title" required class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs focus:outline-none focus:border-neutral-500" />
+            <form id="login-form" class="space-y-3.5 font-mono text-xs">
+                <div>
+                    <label class="text-neutral-500 block mb-1">USERNAME</label>
+                    <input type="text" id="login-username" required placeholder="Username" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
-
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="space-y-1">
-                        <label class="text-neutral-400 block">CATEGORY</label>
-                        <select id="edit-category" required class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs focus:outline-none focus:border-neutral-500">
-                            <option value="marble">Marble</option>
-                            <option value="bronze">Bronze</option>
-                            <option value="terracotta">Terracotta</option>
-                            <option value="painting">Painting</option>
-                            <option value="stone">Stone</option>
-                            <option value="wood">Wood</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-neutral-400 block">YEAR</label>
-                        <input type="text" id="edit-year" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs focus:outline-none focus:border-neutral-500" />
-                    </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">PASSWORD</label>
+                    <input type="password" id="login-password" required placeholder="Password" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
-
-                <div class="space-y-1">
-                    <label class="text-neutral-400 block">MEDIUM / MATERIAL</label>
-                    <input type="text" id="edit-medium" required class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs focus:outline-none focus:border-neutral-500" />
-                </div>
-
-                <div class="space-y-1">
-                    <label class="text-neutral-400 block">UPDATE IMAGE (FILE OR URL)</label>
-                    <input type="file" id="edit-file" accept="image/*" class="w-full bg-black border border-neutral-800 rounded-lg p-2 text-white font-sans text-xs" />
-                    <input type="url" id="edit-url" placeholder="Or paste new image URL..." class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs focus:outline-none focus:border-neutral-500 mt-1" />
-                </div>
-
-                <div class="space-y-1">
-                    <label class="text-neutral-400 block">DESCRIPTION / TEXT</label>
-                    <textarea id="edit-desc" rows="3" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs focus:outline-none focus:border-neutral-500"></textarea>
-                </div>
-
-                <div class="pt-2 flex justify-end gap-2">
-                    <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-neutral-900 border border-neutral-800 text-neutral-400 rounded-lg text-xs">Cancel</button>
-                    <button type="submit" id="save-edit-btn" class="px-4 py-2 bg-white text-black font-semibold rounded-lg text-xs hover:bg-neutral-200 transition-all">Save Changes</button>
-                </div>
+                <div id="auth-error" class="text-red-500 text-[11px] hidden">Incorrect credentials</div>
+                <button type="submit" class="w-full py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold uppercase tracking-wider cursor-pointer hover:opacity-90 transition-opacity mt-2">Login</button>
             </form>
         </div>
     </div>
 
-    <!-- Admin Authentication Modal -->
-    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden justify-center items-center p-4 sm:p-6 transition-all duration-300" onclick="closeAuthModal()">
-        <div class="modal-animated max-w-sm w-full border border-neutral-800 bg-neutral-950 p-5 sm:p-6 rounded-2xl space-y-4 shadow-2xl" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-center border-b border-neutral-900 pb-3">
-                <h3 class="text-xs sm:text-sm font-mono uppercase text-white tracking-widest">ADMIN ACCESS</h3>
-                <button onclick="closeAuthModal()" class="text-neutral-500 hover:text-white text-lg transition-colors duration-200">&times;</button>
-            </div>
-
-            <form id="login-form" class="space-y-3 font-mono text-xs">
-                <div>
-                    <label class="text-neutral-400 block mb-1">USERNAME</label>
-                    <input type="text" id="login-username" required placeholder="Enter username" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
-                </div>
-                <div>
-                    <label class="text-neutral-400 block mb-1">PASSWORD</label>
-                    <input type="password" id="login-password" required placeholder="Enter password" class="w-full bg-black border border-neutral-800 rounded-lg p-2.5 text-white font-sans text-xs sm:text-sm focus:outline-none focus:border-neutral-500 transition-colors duration-300" />
-                </div>
-                <div id="auth-error" class="text-red-400 text-[11px] hidden">Incorrect credentials</div>
-                <button type="submit" class="w-full py-2.5 bg-white text-black font-semibold rounded-lg uppercase tracking-wider text-xs mt-2 hover:bg-neutral-200 transition-colors duration-300">Verify Credentials</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Firebase App & EmailJS Realtime Integration -->
+    <!-- FIREBASE & APPLICATION LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-        // --- EMAILJS INITIALIZATION ---
+        window.toggleTheme = function() {
+            const htmlEl = document.documentElement;
+            if (htmlEl.classList.contains('dark')) {
+                htmlEl.classList.remove('dark');
+                htmlEl.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlEl.classList.remove('light');
+                htmlEl.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        };
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+        document.documentElement.classList.toggle('light', savedTheme === 'light');
+
         emailjs.init({ publicKey: "Qb2pm-_bzZaTba2GX" });
 
         const firebaseConfig = {
@@ -698,279 +584,29 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        enableIndexedDbPersistence(db).catch(() => {});
-
         let artworksList = [];
         let adminUsersList = [];
+        let socialLinksList = [];
         let currentFilter = 'all';
         let isAuthenticated = localStorage.getItem('isAdminLoggedIn') === 'true';
 
-        if (isAuthenticated) {
-            enableAdminState();
-        }
+        if (isAuthenticated) enableAdminState();
 
         function enableAdminState() {
             isAuthenticated = true;
             localStorage.setItem('isAdminLoggedIn', 'true');
-            const adminBtn = document.getElementById('nav-admin-btn');
-            if (adminBtn) adminBtn.classList.remove('hidden');
+            document.getElementById('nav-admin-btn')?.classList.remove('hidden');
             const dot = document.getElementById('admin-login-dot');
-            if (dot) {
-                dot.className = "w-3 h-3 bg-emerald-500 rounded-full hover:scale-150 transition-all duration-300 focus:outline-none cursor-pointer p-1";
-                dot.title = "Admin Console";
-            }
+            if (dot) dot.className = "w-2.5 h-2.5 bg-emerald-500 rounded-full hover:scale-150 transition-all cursor-pointer";
         }
 
         function disableAdminState() {
             isAuthenticated = false;
             localStorage.removeItem('isAdminLoggedIn');
-            const adminBtn = document.getElementById('nav-admin-btn');
-            if (adminBtn) adminBtn.classList.add('hidden');
+            document.getElementById('nav-admin-btn')?.classList.add('hidden');
             const dot = document.getElementById('admin-login-dot');
-            if (dot) {
-                dot.className = "w-3 h-3 bg-white rounded-full hover:scale-150 transition-all duration-300 focus:outline-none cursor-pointer p-1";
-                dot.title = "Admin Login";
-            }
+            if (dot) dot.className = "w-2.5 h-2.5 bg-neutral-900 dark:bg-white rounded-full hover:scale-150 transition-all cursor-pointer";
         }
-
-        // --- AUDIO SYNTHESIZER FOR VAULT UNLOCKING ---
-        function playVaultAudioSequence() {
-            const AudioCtx = window.AudioContext || window.webkitAudioContext;
-            if (!AudioCtx) return;
-            const ctx = new AudioCtx();
-            const now = ctx.currentTime;
-
-            function playGearClick(time, pitchScale = 1) {
-                const osc = ctx.createOscillator();
-                const metallicOsc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                const filter = ctx.createBiquadFilter();
-
-                osc.type = 'square';
-                metallicOsc.type = 'triangle';
-
-                const baseFreq = (140 + Math.random() * 50) * pitchScale;
-                osc.frequency.setValueAtTime(baseFreq, time);
-                osc.frequency.exponentialRampToValueAtTime(25, time + 0.04);
-
-                metallicOsc.frequency.setValueAtTime(1800 * pitchScale, time);
-                metallicOsc.frequency.exponentialRampToValueAtTime(300, time + 0.03);
-
-                filter.type = 'bandpass';
-                filter.frequency.setValueAtTime(1200, time);
-                filter.Q.setValueAtTime(3, time);
-
-                gain.gain.setValueAtTime(0.18, time);
-                gain.gain.exponentialRampToValueAtTime(0.001, time + 0.045);
-
-                osc.connect(filter);
-                metallicOsc.connect(filter);
-                filter.connect(gain);
-                gain.connect(ctx.destination);
-
-                osc.start(time);
-                metallicOsc.start(time);
-                osc.stop(time + 0.05);
-                metallicOsc.stop(time + 0.05);
-            }
-
-            function playDeadboltThud(time) {
-                const subOsc = ctx.createOscillator();
-                const subGain = ctx.createGain();
-                subOsc.type = 'sine';
-                subOsc.frequency.setValueAtTime(110, time);
-                subOsc.frequency.exponentialRampToValueAtTime(15, time + 0.35);
-                subGain.gain.setValueAtTime(0.7, time);
-                subGain.gain.exponentialRampToValueAtTime(0.001, time + 0.35);
-                subOsc.connect(subGain);
-                subGain.connect(ctx.destination);
-                subOsc.start(time);
-                subOsc.stop(time + 0.35);
-
-                const bodyOsc = ctx.createOscillator();
-                const bodyGain = ctx.createGain();
-                const bodyFilter = ctx.createBiquadFilter();
-                bodyOsc.type = 'sawtooth';
-                bodyOsc.frequency.setValueAtTime(220, time);
-                bodyOsc.frequency.exponentialRampToValueAtTime(40, time + 0.2);
-
-                bodyFilter.type = 'peaking';
-                bodyFilter.frequency.setValueAtTime(800, time);
-                bodyFilter.gain.setValueAtTime(12, time);
-
-                bodyGain.gain.setValueAtTime(0.4, time);
-                bodyGain.gain.exponentialRampToValueAtTime(0.001, time + 0.25);
-
-                bodyOsc.connect(bodyFilter);
-                bodyFilter.connect(bodyGain);
-                bodyGain.connect(ctx.destination);
-                bodyOsc.start(time);
-                bodyOsc.stop(time + 0.25);
-            }
-
-            function playPneumaticHiss(time, duration, peakVolume = 0.2) {
-                const bufferSize = ctx.sampleRate * duration;
-                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
-                const noise = ctx.createBufferSource();
-                noise.buffer = buffer;
-
-                const filter = ctx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(2500, time);
-                filter.frequency.exponentialRampToValueAtTime(400, time + duration);
-
-                const gain = ctx.createGain();
-                gain.gain.setValueAtTime(0.001, time);
-                gain.gain.linearRampToValueAtTime(peakVolume, time + 0.15);
-                gain.gain.exponentialRampToValueAtTime(0.001, time + duration);
-
-                noise.connect(filter);
-                filter.connect(gain);
-                gain.connect(ctx.destination);
-
-                noise.start(time);
-                noise.stop(time + duration);
-            }
-
-            function playGateGrindRumble(time, duration) {
-                const bufferSize = ctx.sampleRate * duration;
-                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
-                const friction = ctx.createBufferSource();
-                friction.buffer = buffer;
-
-                const bandpass = ctx.createBiquadFilter();
-                bandpass.type = 'bandpass';
-                bandpass.frequency.setValueAtTime(450, time);
-                bandpass.Q.setValueAtTime(4, time);
-
-                const frictionGain = ctx.createGain();
-                frictionGain.gain.setValueAtTime(0.01, time);
-                frictionGain.gain.linearRampToValueAtTime(0.12, time + 0.4);
-                frictionGain.gain.linearRampToValueAtTime(0.12, time + duration - 0.4);
-                frictionGain.gain.exponentialRampToValueAtTime(0.001, time + duration);
-
-                friction.connect(bandpass);
-                bandpass.connect(frictionGain);
-                frictionGain.connect(ctx.destination);
-                friction.start(time);
-                friction.stop(time + duration);
-
-                const hum = ctx.createOscillator();
-                const humGain = ctx.createGain();
-                hum.type = 'sawtooth';
-                hum.frequency.setValueAtTime(42, time);
-                
-                humGain.gain.setValueAtTime(0.01, time);
-                humGain.gain.linearRampToValueAtTime(0.15, time + 0.3);
-                humGain.gain.linearRampToValueAtTime(0.15, time + duration - 0.3);
-                humGain.gain.exponentialRampToValueAtTime(0.001, time + duration);
-
-                hum.connect(humGain);
-                humGain.connect(ctx.destination);
-                hum.start(time);
-                hum.stop(time + duration);
-            }
-
-            let clickTime = 0;
-            for (let i = 0; i < 48; i++) {
-                const pitch = 1 + (i % 3) * 0.15;
-                playGearClick(now + clickTime, pitch);
-                clickTime += 0.06 + (i * 0.0025);
-            }
-
-            playDeadboltThud(now + 3.8);
-            playDeadboltThud(now + 4.0);
-            playDeadboltThud(now + 5.2);
-            playPneumaticHiss(now + 5.6, 1.4, 0.25);
-            playGateGrindRumble(now + 7.0, 3.0);
-            playPneumaticHiss(now + 7.0, 2.8, 0.18);
-        }
-
-        function trigger10sVaultAnimation(callback) {
-            const overlay = document.getElementById('vault-overlay');
-            const leftDoor = document.getElementById('vault-door-left');
-            const rightDoor = document.getElementById('vault-door-right');
-            const centerLock = document.getElementById('vault-center-lock');
-            const gate = document.getElementById('vault-gate');
-
-            overlay.classList.remove('hidden');
-            overlay.classList.add('flex');
-
-            playVaultAudioSequence();
-
-            leftDoor.classList.remove('animate-vault-left');
-            rightDoor.classList.remove('animate-vault-right');
-            gate.classList.remove('animate-gate-slide');
-
-            setTimeout(() => {
-                gate.classList.add('animate-gate-slide');
-                leftDoor.classList.add('animate-vault-left');
-                rightDoor.classList.add('animate-vault-right');
-                centerLock.style.transition = 'opacity 1s ease-out';
-                centerLock.style.opacity = '0';
-            }, 7000);
-
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                overlay.classList.remove('flex');
-                centerLock.style.opacity = '1';
-                if (callback) callback();
-            }, 10000);
-        }
-
-        // --- EMAILJS FORM HANDLER ---
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('contact-submit-btn');
-            const statusMsg = document.getElementById('contact-status');
-
-            btn.disabled = true;
-            btn.innerHTML = `<span>Sending Message...</span>`;
-
-            emailjs.sendForm('Sourabh_mazumdar', 'Sm_web', this)
-                .then(() => {
-                    statusMsg.className = "p-3 rounded-lg text-xs font-mono bg-emerald-950/60 border border-emerald-800 text-emerald-400";
-                    statusMsg.innerText = "Message sent successfully!";
-                    statusMsg.classList.remove('hidden');
-                    document.getElementById('contact-form').reset();
-                }, (error) => {
-                    statusMsg.className = "p-3 rounded-lg text-xs font-mono bg-red-950/60 border border-red-800 text-red-400";
-                    statusMsg.innerText = "Failed to send message: " + (error.text || "Check EmailJS credentials");
-                    statusMsg.classList.remove('hidden');
-                })
-                .finally(() => {
-                    btn.disabled = false;
-                    btn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i><span>Send Message</span>`;
-                    if (window.lucide) window.lucide.createIcons();
-                });
-        });
-
-        window.handleFileSelect = function(input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                document.getElementById('file-name').innerText = file.name;
-                document.getElementById('file-size').innerText = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-                document.getElementById('file-prompt').classList.add('hidden');
-                document.getElementById('file-info').classList.remove('hidden');
-                document.getElementById('file-info').classList.add('flex');
-            }
-        };
-
-        window.clearSelectedFile = function() {
-            const input = document.getElementById('art-file');
-            input.value = '';
-            document.getElementById('file-prompt').classList.remove('hidden');
-            document.getElementById('file-info').classList.add('hidden');
-            document.getElementById('file-info').classList.remove('flex');
-        };
 
         window.switchTab = function(viewName) {
             if (viewName === 'admin' && !isAuthenticated) {
@@ -978,44 +614,76 @@
                 document.getElementById('auth-modal').classList.add('flex');
                 return;
             }
-
             const mobileLabel = document.getElementById('mobile-current-tab');
             if (mobileLabel) mobileLabel.innerText = viewName;
 
             ['bio', 'gallery', 'timeline', 'contact', 'admin'].forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 const btn = document.getElementById(`nav-${v}-btn`);
-                
                 if (v === viewName) {
-                    el.classList.remove('hidden-view');
-                    el.classList.add('visible-view');
-                    if (btn) {
-                        const hiddenClass = (v === 'admin' && !isAuthenticated) ? ' hidden' : '';
-                        btn.className = "text-white transition-all duration-300 flex items-center gap-1.5 shrink-0 px-2.5 py-1 sm:p-0 rounded-lg bg-neutral-800 sm:bg-transparent border border-neutral-700 sm:border-none" + hiddenClass;
-                    }
+                    el?.classList.remove('hidden-view');
+                    el?.classList.add('visible-view');
+                    btn?.classList.add('bg-neutral-100', 'dark:bg-neutral-900', 'font-semibold');
                 } else {
-                    el.classList.add('hidden-view');
-                    el.classList.remove('visible-view');
-                    if (btn) {
-                        const hiddenClass = (v === 'admin' && !isAuthenticated) ? ' hidden' : '';
-                        btn.className = "text-neutral-400 hover:text-white transition-all duration-300 flex items-center gap-1.5 shrink-0 px-2.5 py-1 sm:p-0 rounded-lg bg-neutral-900/50 sm:bg-transparent border border-neutral-800/50 sm:border-none" + hiddenClass;
-                    }
+                    el?.classList.add('hidden-view');
+                    el?.classList.remove('visible-view');
+                    btn?.classList.remove('bg-neutral-100', 'dark:bg-neutral-900', 'font-semibold');
                 }
             });
             window.scrollTo({ top: 0, behavior: 'instant' });
         };
 
         window.handleDotClick = function() {
-            if (isAuthenticated) {
-                switchTab('admin');
-            } else {
+            if (isAuthenticated) switchTab('admin');
+            else {
                 document.getElementById('auth-modal').classList.remove('hidden');
                 document.getElementById('auth-modal').classList.add('flex');
             }
         };
 
-        const qArtworks = query(collection(db, "artworks"), orderBy("createdAt", "desc"));
-        onSnapshot(qArtworks, (snapshot) => {
+        window.closeAuthModal = () => document.getElementById('auth-modal').classList.add('hidden');
+        window.openArtworkModal = () => document.getElementById('artwork-modal-overlay').classList.remove('hidden');
+        window.closeArtworkModal = () => document.getElementById('artwork-modal-overlay').classList.add('hidden');
+        window.openSocialModal = () => document.getElementById('social-modal-overlay').classList.remove('hidden');
+        window.closeSocialModal = () => document.getElementById('social-modal-overlay').classList.add('hidden');
+        window.openAddAdminModal = () => document.getElementById('admin-modal-overlay').classList.remove('hidden');
+        window.closeAddAdminModal = () => document.getElementById('admin-modal-overlay').classList.add('hidden');
+        window.closeEditModal = () => document.getElementById('edit-modal').classList.add('hidden');
+
+        window.openArtModal = function(art) {
+            document.getElementById('modal-title').innerText = art.title || 'Untitled';
+            document.getElementById('modal-desc').innerText = art.desc || '';
+            document.getElementById('modal-medium').innerText = art.medium || art.category || '';
+            
+            const dim = document.getElementById('modal-dimensions');
+            if (art.dimensions) {
+                dim.innerText = art.dimensions;
+                dim.classList.remove('hidden');
+            } else dim.classList.add('hidden');
+
+            const price = document.getElementById('modal-price');
+            if (art.price) {
+                price.innerText = art.price;
+                price.classList.remove('hidden');
+            } else price.classList.add('hidden');
+
+            const img = document.getElementById('modal-image');
+            const ph = document.getElementById('modal-placeholder');
+            if (art.imageUrl) {
+                img.src = art.imageUrl;
+                img.classList.remove('hidden');
+                ph.classList.add('hidden');
+            } else {
+                img.classList.add('hidden');
+                ph.classList.remove('hidden');
+            }
+            document.getElementById('art-modal').classList.remove('hidden');
+            document.getElementById('art-modal').classList.add('flex');
+        };
+
+        window.closeArtModal = () => document.getElementById('art-modal').classList.add('hidden');
+
+        onSnapshot(query(collection(db, "artworks"), orderBy("createdAt", "desc")), (snapshot) => {
             artworksList = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
             updateFilterButtons(artworksList);
             renderGallery(artworksList);
@@ -1026,379 +694,255 @@
             renderAdminUserList();
         });
 
-        function renderAdminUserList() {
-            const listEl = document.getElementById('admin-list');
-            if (!listEl) return;
-            
-            listEl.innerHTML = '';
-            
-            const masterDiv = document.createElement('div');
-            masterDiv.className = "flex justify-between items-center bg-black/60 border border-neutral-900 p-2 rounded text-[11px] text-neutral-300";
-            masterDiv.innerHTML = `<span>SourabhMz <span class="text-neutral-600 text-[9px]">(Master)</span></span>`;
-            listEl.appendChild(masterDiv);
+        onSnapshot(collection(db, "social_links"), (snapshot) => {
+            socialLinksList = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderSocials();
+            renderAdminSocialsList();
+        });
 
-            adminUsersList.forEach(u => {
-                const item = document.createElement('div');
-                item.className = "flex justify-between items-center bg-black/60 border border-neutral-900 p-2 rounded text-[11px] text-neutral-300";
-                item.innerHTML = `
-                    <span>${u.username}</span>
-                    <button onclick="deleteAdminUser('${u.id}')" class="text-neutral-600 hover:text-red-400 p-0.5 transition-colors duration-200">
-                        <i data-lucide="x" class="w-3 h-3"></i>
-                    </button>
-                `;
-                listEl.appendChild(item);
-            });
-
-            if (window.lucide) window.lucide.createIcons();
-        }
-
-        /* --- YEAR-BASED FILTER SYSTEM --- */
         function updateFilterButtons(items) {
             const filterContainer = document.getElementById('filter-container');
             if (!filterContainer) return;
-
             const presentYears = new Set();
             let hasUndated = false;
-
             items.forEach(item => {
-                if (item.year && item.year.trim() !== "") {
-                    presentYears.add(item.year.trim());
-                } else {
-                    hasUndated = true;
-                }
+                if (item.year && item.year.trim() !== "") presentYears.add(item.year.trim());
+                else hasUndated = true;
             });
-
-            // Sort years in descending chronological order
             const sortedYears = Array.from(presentYears).sort((a, b) => b.localeCompare(a));
-
             filterContainer.innerHTML = '';
             filterContainer.appendChild(createFilterButton('all', 'All Years', currentFilter === 'all'));
-
-            sortedYears.forEach(year => {
-                filterContainer.appendChild(createFilterButton(year, year, currentFilter === year));
-            });
-
-            if (hasUndated) {
-                filterContainer.appendChild(createFilterButton('undated', 'Undated', currentFilter === 'undated'));
-            }
+            sortedYears.forEach(year => filterContainer.appendChild(createFilterButton(year, year, currentFilter === year)));
+            if (hasUndated) filterContainer.appendChild(createFilterButton('undated', 'Undated', currentFilter === 'undated'));
         }
 
         function createFilterButton(yearKey, label, isActive) {
             const btn = document.createElement('button');
-            btn.onclick = () => filterGallery(yearKey);
-            btn.className = `px-3 py-1.5 rounded border transition-all duration-300 text-xs shrink-0 ${
-                isActive ? 'bg-white text-black border-white font-medium' : 'border-neutral-800 text-neutral-400 hover:text-white'
-            }`;
+            btn.onclick = () => { currentFilter = yearKey; updateFilterButtons(artworksList); renderGallery(artworksList); };
+            btn.className = `px-3.5 py-1.5 rounded-xl border transition-all text-xs shrink-0 cursor-pointer ${isActive ? 'bg-neutral-900 dark:bg-white text-white dark:text-black border-neutral-900 dark:border-white font-medium' : 'border-neutral-200 dark:border-neutral-800 text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`;
             btn.innerText = label;
             return btn;
         }
 
-        window.renderGallery = function(items) {
+        function renderGallery(items) {
             const grid = document.getElementById('gallery-grid');
+            if (!grid) return;
             grid.innerHTML = '';
-
             let filtered = [];
-            if (currentFilter === 'all') {
-                // Sort all items chronologically by year (descending)
-                filtered = [...items].sort((a, b) => (b.year || '').localeCompare(a.year || ''));
-            } else if (currentFilter === 'undated') {
-                filtered = items.filter(a => !a.year || a.year.trim() === '');
-            } else {
-                filtered = items.filter(a => (a.year || '').trim() === currentFilter);
-            }
+            if (currentFilter === 'all') filtered = [...items];
+            else if (currentFilter === 'undated') filtered = items.filter(a => !a.year || a.year.trim() === '');
+            else filtered = items.filter(a => (a.year || '').trim() === currentFilter);
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-16 text-center text-neutral-600 font-mono text-xs">No artworks found for this selection.</div>`;
+                grid.innerHTML = `<div class="col-span-full py-20 text-center text-neutral-400 font-mono text-xs">No collection items found.</div>`;
                 return;
             }
-
-            const fragment = document.createDocumentFragment();
             filtered.forEach(art => {
                 const card = document.createElement('div');
-                card.className = "interactive-card border border-neutral-900 bg-neutral-950 rounded-xl overflow-hidden flex flex-col justify-between p-4 sm:p-5 space-y-3 sm:space-y-4 cursor-pointer relative";
+                card.className = "interactive-card border border-neutral-200 dark:border-neutral-900 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl rounded-2xl p-4.5 space-y-3.5 cursor-pointer relative group";
                 card.onclick = () => openArtModal(art);
-
-                const hasImg = art.imageUrl && art.imageUrl.trim() !== "";
-
                 card.innerHTML = `
-                    <div class="w-full h-48 sm:h-52 bg-black border border-neutral-900 rounded-lg flex items-center justify-center relative overflow-hidden">
-                        ${hasImg ? `
-                            <img src="${art.imageUrl}" alt="${art.title || ''}" loading="lazy" onload="this.classList.add('loaded')" class="lazy-load w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
-                        ` : `
-                            <div class="text-neutral-700 font-mono text-xs">View Artwork</div>
-                        `}
+                    <div class="w-full h-52 bg-black rounded-xl overflow-hidden flex items-center justify-center relative">
+                        ${art.imageUrl ? `<img src="${art.imageUrl}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />` : `<span class="text-xs font-mono text-neutral-500">No Image</span>`}
                         ${isAuthenticated ? `
-                            <div class="absolute top-2 right-2 flex gap-1 z-10">
-                                <button onclick="event.stopPropagation(); openEditModal('${art.id}')" class="p-2 rounded-lg bg-black/80 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 transition-all duration-200 shadow-lg" title="Edit Data">
-                                    <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-                                </button>
-                                <button onclick="event.stopPropagation(); deleteArtRecord('${art.id}')" class="p-2 rounded-lg bg-black/80 hover:bg-red-950/80 text-neutral-400 hover:text-red-400 border border-neutral-800 hover:border-red-800 transition-all duration-200 shadow-lg" title="Delete Record">
-                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                                </button>
+                            <div class="absolute top-2.5 right-2.5 flex gap-1.5 z-10" onclick="event.stopPropagation()">
+                                <button onclick="openEditModal('${art.id}')" class="p-2 rounded-xl bg-black/80 text-white hover:bg-neutral-800 backdrop-blur-md transition-colors"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
+                                <button onclick="deleteArtRecord('${art.id}')" class="p-2 rounded-xl bg-black/80 text-red-400 hover:bg-red-950 backdrop-blur-md transition-colors"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                             </div>
                         ` : ''}
                     </div>
                     <div>
-                        <div class="flex justify-between items-start">
-                            <h4 class="text-white font-medium text-base sm:text-lg">${art.title || 'Untitled'}</h4>
-                            <span class="text-neutral-600 font-mono text-xs">${art.year || ''}</span>
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-base text-neutral-900 dark:text-white">${art.title || 'Untitled'}</h4>
+                            <span class="text-xs font-mono text-neutral-400">${art.year || ''}</span>
                         </div>
-                        <p class="text-neutral-500 text-xs line-clamp-2 mt-1">${art.desc || art.description || ''}</p>
-                    </div>
-                `;
-                fragment.appendChild(card);
+                        <p class="text-xs text-neutral-500 mt-0.5">${art.medium || ''}</p>
+                        <div class="flex items-center gap-3 mt-3 font-mono text-[11px]">
+                            ${art.dimensions ? `<span class="text-neutral-400 bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded-md">${art.dimensions}</span>` : ''}
+                            ${art.price ? `<span class="text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md">${art.price}</span>` : ''}
+                        </div>
+                    </div>`;
+                grid.appendChild(card);
             });
-            grid.appendChild(fragment);
             if (window.lucide) window.lucide.createIcons();
-        };
+        }
 
-        window.filterGallery = function(yearKey) {
-            currentFilter = yearKey;
-            updateFilterButtons(artworksList);
-            renderGallery(artworksList);
-        };
-
-        window.closeAuthModal = function() {
-            document.getElementById('auth-modal').classList.add('hidden');
-            document.getElementById('auth-modal').classList.remove('flex');
-        };
-
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const u = document.getElementById('login-username').value.trim();
-            const p = document.getElementById('login-password').value.trim();
-
-            if (u === "SourabhMz" && p === "1166@KrishSou") {
-                loginSuccess();
+        function renderSocials() {
+            const container = document.getElementById('contact-socials-list');
+            if (!container) return;
+            if (socialLinksList.length === 0) {
+                container.innerHTML = `<span class="text-xs text-neutral-400 font-mono">No socials added yet.</span>`;
                 return;
             }
-
-            const userMatch = adminUsersList.find(usr => usr.username === u && usr.password === p);
-            if (userMatch) {
-                loginSuccess();
-            } else {
-                document.getElementById('auth-error').classList.remove('hidden');
-            }
-        });
-
-        function loginSuccess() {
-            closeAuthModal();
-            document.getElementById('auth-error').classList.add('hidden');
-            
-            trigger10sVaultAnimation(() => {
-                enableAdminState();
-                switchTab('admin');
-                renderGallery(artworksList);
+            container.innerHTML = '';
+            socialLinksList.forEach(soc => {
+                const a = document.createElement('a');
+                a.href = soc.link;
+                a.target = "_blank";
+                a.className = "flex items-center justify-center w-11 h-11 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:scale-105 transition-transform shadow-sm";
+                a.innerHTML = `<img src="${soc.logoUrl}" class="w-5 h-5 object-contain rounded" />`;
+                container.appendChild(a);
             });
         }
 
-        window.logoutAdmin = function() {
-            disableAdminState();
-            switchTab('bio');
-            renderGallery(artworksList);
-        };
-
-        function compressImage(file, maxDimension = 1200, quality = 0.75) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.src = e.target.result;
-                    img.onload = () => {
-                        let width = img.width;
-                        let height = img.height;
-                        if (width > maxDimension || height > maxDimension) {
-                            if (width > height) {
-                                height = Math.round((height * maxDimension) / width);
-                                width = maxDimension;
-                            } else {
-                                width = Math.round((width * maxDimension) / height);
-                                height = maxDimension;
-                            }
-                        }
-                        const canvas = document.createElement('canvas');
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', quality));
-                    };
-                    img.onerror = () => resolve('');
-                };
-                reader.onerror = () => resolve('');
+        function renderAdminSocialsList() {
+            const listEl = document.getElementById('admin-socials-list');
+            if (!listEl) return;
+            listEl.innerHTML = socialLinksList.length === 0 ? `<div class="text-neutral-400 text-[11px]">No records.</div>` : '';
+            socialLinksList.forEach(s => {
+                const item = document.createElement('div');
+                item.className = "flex justify-between items-center p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-black/40 text-xs";
+                item.innerHTML = `<span>${s.name} (${s.username})</span> <button onclick="deleteSocial('${s.id}')" class="text-red-500 hover:text-red-700 font-bold">&times;</button>`;
+                listEl.appendChild(item);
             });
         }
 
-        document.getElementById('add-user-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isAuthenticated) return;
+        function renderAdminUserList() {
+            const listEl = document.getElementById('admin-list');
+            if (!listEl) return;
+            listEl.innerHTML = `<div class="p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-black/40 text-xs">SourabhMz <span class="text-neutral-400">(Master)</span></div>`;
+            adminUsersList.forEach(u => {
+                const item = document.createElement('div');
+                item.className = "flex justify-between items-center p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-black/40 text-xs";
+                item.innerHTML = `<span>${u.username}</span> <button onclick="deleteAdminUser('${u.id}')" class="text-red-500 hover:text-red-700 font-bold">&times;</button>`;
+                listEl.appendChild(item);
+            });
+        }
 
-            const uInput = document.getElementById('new-admin-user');
-            const pInput = document.getElementById('new-admin-pass');
-            const btn = document.getElementById('add-user-btn');
-
-            btn.disabled = true;
-            btn.innerText = "Creating...";
-
-            try {
-                await addDoc(collection(db, "admin_users"), {
-                    username: uInput.value.trim(),
-                    password: pInput.value.trim(),
-                    createdAt: serverTimestamp()
-                });
-                uInput.value = '';
-                pInput.value = '';
-            } catch (err) {
-                alert("Error adding admin: " + err.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = `<i data-lucide="user-plus" class="w-3.5 h-3.5"></i><span>Create Admin</span>`;
-                if (window.lucide) window.lucide.createIcons();
-            }
-        });
-
-        window.deleteAdminUser = async function(docId) {
-            if (!isAuthenticated) return;
-            if (confirm("Remove this admin user?")) {
-                await deleteDoc(doc(db, "admin_users", docId));
-            }
-        };
-
-        document.getElementById('artwork-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isAuthenticated) return;
-
-            const btn = document.getElementById('submit-btn');
-            btn.disabled = true;
-            btn.innerText = "Publishing Artwork...";
-
-            try {
-                let imgData = document.getElementById('art-url').value.trim();
-                const fileInput = document.getElementById('art-file');
-
-                if (!imgData && fileInput.files.length > 0) {
-                    imgData = await compressImage(fileInput.files[0]);
-                }
-
-                await addDoc(collection(db, "artworks"), {
-                    title: document.getElementById('art-title').value.trim(),
-                    category: document.getElementById('art-category').value,
-                    year: document.getElementById('art-year').value.trim(),
-                    medium: document.getElementById('art-medium').value.trim(),
-                    desc: document.getElementById('art-desc').value.trim(),
-                    imageUrl: imgData,
-                    createdAt: serverTimestamp()
-                });
-
-                document.getElementById('artwork-form').reset();
-                clearSelectedFile();
-            } catch (err) {
-                alert("Upload error: " + err.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = `<i data-lucide="upload-cloud" class="w-4 h-4"></i><span>Publish Artwork</span>`;
-                if (window.lucide) window.lucide.createIcons();
-            }
-        });
-
-        /* --- EDIT EXISTING ARTWORK LOGIC --- */
         window.openEditModal = function(id) {
             const art = artworksList.find(a => a.id === id);
             if (!art) return;
-
             document.getElementById('edit-doc-id').value = art.id;
             document.getElementById('edit-title').value = art.title || '';
             document.getElementById('edit-category').value = art.category || 'marble';
             document.getElementById('edit-year').value = art.year || '';
             document.getElementById('edit-medium').value = art.medium || '';
-            document.getElementById('edit-desc').value = art.desc || art.description || '';
+            document.getElementById('edit-dimensions').value = art.dimensions || '';
+            document.getElementById('edit-price').value = art.price || '';
+            document.getElementById('edit-desc').value = art.desc || '';
             document.getElementById('edit-url').value = art.imageUrl || '';
-            document.getElementById('edit-file').value = '';
-
-            const editModal = document.getElementById('edit-modal');
-            editModal.classList.remove('hidden');
-            editModal.classList.add('flex');
+            document.getElementById('edit-modal').classList.remove('hidden');
+            document.getElementById('edit-modal').classList.add('flex');
         };
 
-        window.closeEditModal = function() {
-            const editModal = document.getElementById('edit-modal');
-            editModal.classList.add('hidden');
-            editModal.classList.remove('flex');
-        };
+        window.deleteArtRecord = async (id) => { if (confirm("Delete artwork?")) await deleteDoc(doc(db, "artworks", id)); };
+        window.deleteSocial = async (id) => { if (confirm("Delete social?")) await deleteDoc(doc(db, "social_links", id)); };
+        window.deleteAdminUser = async (id) => { if (confirm("Delete admin?")) await deleteDoc(doc(db, "admin_users", id)); };
 
-        document.getElementById('edit-art-form').addEventListener('submit', async (e) => {
+        document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            if (!isAuthenticated) return;
-
-            const docId = document.getElementById('edit-doc-id').value;
-            const btn = document.getElementById('save-edit-btn');
-            btn.disabled = true;
-            btn.innerText = "Saving...";
-
-            try {
-                let finalImgUrl = document.getElementById('edit-url').value.trim();
-                const fileInput = document.getElementById('edit-file');
-
-                if (fileInput.files.length > 0) {
-                    finalImgUrl = await compressImage(fileInput.files[0]);
-                }
-
-                const docRef = doc(db, "artworks", docId);
-                await updateDoc(docRef, {
-                    title: document.getElementById('edit-title').value.trim(),
-                    category: document.getElementById('edit-category').value,
-                    year: document.getElementById('edit-year').value.trim(),
-                    medium: document.getElementById('edit-medium').value.trim(),
-                    desc: document.getElementById('edit-desc').value.trim(),
-                    imageUrl: finalImgUrl
-                });
-
-                closeEditModal();
-            } catch (err) {
-                alert("Update failed: " + err.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "Save Changes";
+            const u = document.getElementById('login-username').value.trim();
+            const p = document.getElementById('login-password').value.trim();
+            if ((u === "SourabhMz" && p === "1166@KrishSou") || adminUsersList.some(usr => usr.username === u && usr.password === p)) {
+                closeAuthModal();
+                enableAdminState();
+                switchTab('admin');
+            } else {
+                document.getElementById('auth-error').classList.remove('hidden');
             }
         });
 
-        window.deleteArtRecord = async function(docId) {
-            if (!isAuthenticated) return;
-            if (confirm("Are you sure you want to delete this artwork?")) {
-                await deleteDoc(doc(db, "artworks", docId));
-            }
-        };
+        function compressImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = () => resolve('');
+            });
+        }
 
-        window.openArtModal = function(art) {
-            document.getElementById('modal-title').innerText = art.title || 'Untitled';
-            document.getElementById('modal-desc').innerText = art.desc || art.description || '';
-            document.getElementById('modal-medium').innerText = (art.medium || art.category || 'Artwork') + (art.year ? " (" + art.year + ")" : "");
-            
-            const modalImg = document.getElementById('modal-image');
-            const placeholder = document.getElementById('modal-placeholder');
+        document.getElementById('social-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const file = document.getElementById('social-file').files[0];
+            const logoData = file ? await compressImage(file) : '';
+            await addDoc(collection(db, "social_links"), {
+                name: document.getElementById('social-name').value.trim(),
+                link: document.getElementById('social-link').value.trim(),
+                username: document.getElementById('social-username').value.trim(),
+                logoUrl: logoData,
+                createdAt: serverTimestamp()
+            });
+            document.getElementById('social-form').reset();
+            closeSocialModal();
+        });
 
-            if (art.imageUrl && art.imageUrl.trim() !== '') {
-                modalImg.src = art.imageUrl;
-                modalImg.classList.remove('hidden');
-                placeholder.classList.add('hidden');
-            } else {
-                modalImg.classList.add('hidden');
-                placeholder.classList.remove('hidden');
-            }
+        document.getElementById('artwork-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const file = document.getElementById('art-file').files[0];
+            let imgData = document.getElementById('art-url').value.trim();
+            if (file) imgData = await compressImage(file);
 
-            document.getElementById('art-modal').classList.remove('hidden');
-            document.getElementById('art-modal').classList.add('flex');
-        };
+            await addDoc(collection(db, "artworks"), {
+                title: document.getElementById('art-title').value.trim(),
+                category: document.getElementById('art-category').value,
+                year: document.getElementById('art-year').value.trim(),
+                medium: document.getElementById('art-medium').value.trim(),
+                dimensions: document.getElementById('art-dimensions').value.trim(),
+                price: document.getElementById('art-price').value.trim(),
+                desc: document.getElementById('art-desc').value.trim(),
+                imageUrl: imgData,
+                createdAt: serverTimestamp()
+            });
+            document.getElementById('artwork-form').reset();
+            closeArtworkModal();
+        });
 
-        window.closeArtModal = function() {
-            document.getElementById('art-modal').classList.add('hidden');
-            document.getElementById('art-modal').classList.remove('flex');
-        };
+        document.getElementById('edit-art-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const docId = document.getElementById('edit-doc-id').value;
+            const file = document.getElementById('edit-file').files[0];
+            let finalImgUrl = document.getElementById('edit-url').value.trim();
+            if (file) finalImgUrl = await compressImage(file);
 
-        window.onload = () => { 
-            if (window.lucide) window.lucide.createIcons(); 
-        };
+            await updateDoc(doc(db, "artworks", docId), {
+                title: document.getElementById('edit-title').value.trim(),
+                category: document.getElementById('edit-category').value,
+                year: document.getElementById('edit-year').value.trim(),
+                medium: document.getElementById('edit-medium').value.trim(),
+                dimensions: document.getElementById('edit-dimensions').value.trim(),
+                price: document.getElementById('edit-price').value.trim(),
+                desc: document.getElementById('edit-desc').value.trim(),
+                imageUrl: finalImgUrl
+            });
+            closeEditModal();
+        });
+
+        document.getElementById('add-user-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db, "admin_users"), {
+                username: document.getElementById('new-admin-user').value.trim(),
+                password: document.getElementById('new-admin-pass').value.trim(),
+                createdAt: serverTimestamp()
+            });
+            document.getElementById('add-user-form').reset();
+            closeAddAdminModal();
+        });
+
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('contact-submit-btn');
+            const statusMsg = document.getElementById('contact-status');
+            btn.disabled = true;
+            btn.innerText = "Sending Message...";
+
+            emailjs.sendForm('Sourabh_mazumdar', 'Sm_web', this)
+                .then(() => {
+                    statusMsg.className = "p-3 rounded-xl text-xs font-mono bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 text-emerald-700 dark:text-emerald-400";
+                    statusMsg.innerText = "Message sent successfully!";
+                    statusMsg.classList.remove('hidden');
+                    document.getElementById('contact-form').reset();
+                }, (error) => {
+                    statusMsg.className = "p-3 rounded-xl text-xs font-mono bg-red-50 dark:bg-red-950/60 border border-red-300 text-red-700 dark:text-red-400";
+                    statusMsg.innerText = "Failed to send message: " + (error.text || "Check EmailJS credentials");
+                    statusMsg.classList.remove('hidden');
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerText = "Send Message";
+                });
+        });
+
+        window.onload = () => { if (window.lucide) window.lucide.createIcons(); };
     </script>
 </body>
 </html>
